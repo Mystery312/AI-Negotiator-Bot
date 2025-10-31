@@ -1,0 +1,94 @@
+{
+  "conv_id": "dond_viz_1754621212",
+  "history": [
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "YOU: what would you like",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687911"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "THEM: i need the hats you can have everything else",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687918"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "YOU: you take all balls and i keep everything",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687920"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "THEM: no deal . i need the hats or no deal .",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687921"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "YOU: no deal",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687922"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "THEM: no deal .",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687923"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "YOU: no deal",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687924"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "THEM: no deal .",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687924"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "YOU: no",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687925"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "THEM: no deal .",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687926"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "YOU:",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:46:52.687927"
+    }
+  ],
+  "last_updated": "2025-08-08T11:46:52.688422"
+}

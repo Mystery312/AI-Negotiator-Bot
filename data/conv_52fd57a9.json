@@ -1,0 +1,14 @@
+{
+  "conv_id": "conv_52fd57a9",
+  "history": [
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "YOU: what would you like <eos> THEM: i need the hats you can have everything else <eos> YOU: you take all balls and i keep everything <eos> THEM: no deal . i need the hats or no deal . <eos> YOU: no deal <eos> THEM: no deal . <eos> YOU: no deal <eos> THEM: no deal . <eos> YOU: no <eos> THEM: no deal . <eos> YOU: <selection>",
+      "move": null,
+      "pd": null,
+      "ts": ""
+    }
+  ],
+  "last_updated": "2025-08-08T09:33:02.210798"
+}

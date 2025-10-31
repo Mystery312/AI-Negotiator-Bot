@@ -1,0 +1,14 @@
+{
+  "conv_id": "conv_a282aafb",
+  "history": [
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "THEM: hi , i would like 2 balls and 1 hat . <eos> YOU: i'd like book and 1 ball or hat ? <eos> THEM: hmm , how about i get the 2 balls and you keep the rest ? <eos> YOU: deal . <eos> THEM: <selection>",
+      "move": null,
+      "pd": null,
+      "ts": ""
+    }
+  ],
+  "last_updated": "2025-08-07T21:20:49.947358"
+}

@@ -1,0 +1,94 @@
+{
+  "conv_id": "dond_viz_1754621370",
+  "history": [
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "THEM: want 2 books 1 ball",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482327"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "YOU: i can't do that i need the ball and the hats",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482336"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "THEM: ball and 1 book is my best offer .",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482337"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "YOU: i can't do that , i need both books and 2 hats",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482338"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "THEM: can't do it - ball and 1 book for me",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482339"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "YOU: i can't do that , no deal i guess",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482339"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "THEM: guess not - good luck",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482340"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "YOU: you too",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482341"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "THEM: let's hit no deal button",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482342"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "YOU: no deal",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482343"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "THEM:",
+      "move": null,
+      "pd": null,
+      "ts": "2025-08-08T11:49:30.482344"
+    }
+  ],
+  "last_updated": "2025-08-08T11:49:30.483069"
+}
