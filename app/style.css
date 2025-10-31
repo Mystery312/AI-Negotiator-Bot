@@ -1,0 +1,122 @@
+/* Base font stack: use common, generic system fonts for broad compatibility */
+:root {
+    /* Main UI font stack set to Times New Roman with generic serif fallbacks */
+    --font-family-sans: 'Times New Roman', Times, serif;
+}
+
+html, body, .gradio-container, .gradio-app {
+    font-family: var(--font-family-sans) !important;
+}
+
+/* Chat bubble and role chip styling */
+.bubble { 
+    border-radius: 10px; 
+    padding: 6px 10px; 
+    display: inline-block;
+    margin: 2px 0;
+}
+
+/* Align bubbles to left/right based on role chip on the same row */
+.chat-row {
+    display: flex;
+    width: 100%;
+    margin: 6px 0;
+}
+
+.chat-row.you { justify-content: flex-end; }
+.chat-row.them { justify-content: flex-start; }
+.chat-row.coach { justify-content: center; }
+
+.chat-row .bubble { max-width: 70%; }
+
+.chip { 
+    font-size: 12px; 
+    padding: 2px 6px; 
+    border-radius: 8px; 
+    margin-right: 6px;
+    font-weight: 500;
+    font-family: var(--font-family-sans) !important;
+}
+
+.chip-a { 
+    background: #d1e7dd; 
+    color: #0f5132; 
+}
+
+.chip-bot { 
+    background: #cfe2ff; 
+    color: #084298; 
+}
+
+.chip-b { 
+    background: #f8d7da; 
+    color: #842029; 
+}
+
+.coach-bubble { 
+    background: #fde2b9; 
+    padding: 4px 8px; 
+    border-radius: 6px; 
+}
+
+.meta { 
+    opacity: 0.7; 
+    font-size: 12px; 
+    margin-left: 8px;
+    font-style: italic;
+    font-family: var(--font-family-sans) !important;
+}
+
+/* Dark theme compatibility */
+[data-theme="dark"] .chip-a {
+    background: #0f5132;
+    color: #d1e7dd;
+}
+
+[data-theme="dark"] .chip-bot {
+    background: #084298;
+    color: #cfe2ff;
+}
+
+[data-theme="dark"] .chip-b {
+    background: #842029;
+    color: #f8d7da;
+}
+
+/* Responsive design for narrow windows */
+@media (max-width: 768px) {
+    .chip {
+        font-size: 10px;
+        padding: 1px 4px;
+    }
+    
+    .meta {
+        font-size: 10px;
+    }
+}
+
+/* Auto-scroll to bottom */
+.chatbot-container {
+    scroll-behavior: smooth;
+}
+
+/* Input area styling */
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-family: var(--font-family-sans) !important;
+}
+
+/* Accordion styling */
+.accordion-content {
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    margin-top: 8px;
+}
+
+[data-theme="dark"] .accordion-content {
+    background: rgba(255, 255, 255, 0.05);
+} 
