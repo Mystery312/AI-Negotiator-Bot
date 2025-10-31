@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+neo4j>=5
+openai
+pdfplumber
+python-dotenv
+gradio
+pydantic>=2
+python-multipart
+requests
+plotly
+chromadb
+sentence-transformers
+convokit
+google-generativeai 
+datasets<=2.18.0
