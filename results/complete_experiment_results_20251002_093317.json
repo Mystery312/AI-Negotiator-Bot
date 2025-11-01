@@ -1,0 +1,112 @@
+{
+  "experiment_id": "exp_20251002_093058",
+  "start_time": "2025-10-02T09:31:10.131927",
+  "config": {
+    "experiment_id": "exp_20251002_093058",
+    "timestamp": "2025-10-02T09:30:58.415201",
+    "base_dir": "experiments",
+    "results_dir": "results",
+    "sample_sizes": {
+      "component_tests": 1000,
+      "system_tests": 200,
+      "human_tests": 100
+    },
+    "test_runs": 5,
+    "output_formats": [
+      "json",
+      "csv",
+      "png",
+      "html"
+    ],
+    "statistical_tests": {
+      "significance_level": 0.05,
+      "power": 0.8,
+      "effect_size": 0.5
+    }
+  },
+  "component_tests": {
+    "preference_estimator": {
+      "error": "[Errno 2] No such file or directory: 'results\\\\raw_data/component_tests\\\\preference_estimator_preference_estimator_results_20251002_093123.json'"
+    },
+    "rag_effectiveness": {
+      "error": "[Errno 2] No such file or directory: 'results\\\\raw_data/component_tests\\\\rag_effectiveness_rag_effectiveness_results_20251002_093203.json'"
+    },
+    "conversation_scoring": {
+      "error": "[Errno 2] No such file or directory: 'results\\\\raw_data/component_tests\\\\conversation_scoring_conversation_scoring_results_20251002_093313.json'"
+    }
+  },
+  "system_tests": {
+    "end_to_end": {
+      "error": "[Errno 2] No such file or directory: 'results\\\\raw_data/system_tests\\\\end_to_end_end_to_end_results_20251002_093315.json'"
+    }
+  },
+  "aggregated_results": {
+    "component_tests": {
+      "aggregation_timestamp": "2025-10-02T09:33:15.189324",
+      "component_tests": {}
+    },
+    "system_tests": {
+      "aggregation_timestamp": "2025-10-02T09:33:15.189467",
+      "system_tests": {}
+    },
+    "comparison_matrix": {
+      "creation_timestamp": "2025-10-02T09:33:15.189610",
+      "test_comparison": {}
+    },
+    "summary_report": {
+      "report_timestamp": "2025-10-02T09:33:15.189834",
+      "report_id": "summary_20251002_093315",
+      "executive_summary": {
+        "total_tests_analyzed": 0,
+        "overall_effectiveness": "unknown",
+        "key_improvements": {},
+        "performance_highlights": []
+      },
+      "component_analysis": {
+        "aggregation_timestamp": "2025-10-02T09:33:15.189649",
+        "component_tests": {}
+      },
+      "system_analysis": {
+        "aggregation_timestamp": "2025-10-02T09:33:15.189739",
+        "system_tests": {}
+      },
+      "comparison_analysis": {
+        "creation_timestamp": "2025-10-02T09:33:15.189831",
+        "test_comparison": {}
+      },
+      "key_findings": [],
+      "recommendations": []
+    }
+  },
+  "plots": {
+    "rag_comparison": "results\\plots\\rag_comparison_20251002_093316.png",
+    "performance_analysis": "results\\plots\\performance_analysis_20251002_093316.png",
+    "correlation_matrix": "results\\plots\\correlation_matrix_20251002_093317.png"
+  },
+  "summary": {
+    "experiment_id": "exp_20251002_093058",
+    "start_time": "2025-10-02T09:31:10.131927",
+    "end_time": "2025-10-02T09:33:17.723965",
+    "duration_seconds": 127.592038,
+    "duration_minutes": 2.1265339666666665,
+    "test_summary": {
+      "total_component_tests": 3,
+      "successful_component_tests": 0,
+      "total_system_tests": 1,
+      "successful_system_tests": 0,
+      "total_tests": 4,
+      "successful_tests": 0
+    },
+    "key_metrics": {
+      "total_tests_analyzed": 0,
+      "overall_effectiveness": "unknown",
+      "key_improvements": {},
+      "performance_highlights": []
+    },
+    "outputs": {
+      "plots_generated": 3,
+      "data_files_created": 4,
+      "results_directory": "results/"
+    }
+  }
+}

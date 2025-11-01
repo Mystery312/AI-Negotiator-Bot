@@ -1,0 +1,9 @@
+{
+  "test_type": "conversation_scoring",
+  "timestamp": "2025-10-02T09:47:26.323551",
+  "sample_data": {
+    "accuracy": 0.85,
+    "processing_time": 0.05,
+    "samples_tested": 100
+  }
+}

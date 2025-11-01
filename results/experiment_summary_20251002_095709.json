@@ -1,0 +1,26 @@
+{
+  "experiment_id": "exp_20251002_095513",
+  "start_time": "2025-10-02T09:55:25.734448",
+  "end_time": "2025-10-02T09:57:09.097643",
+  "duration_seconds": 103.363195,
+  "duration_minutes": 1.7227199166666667,
+  "test_summary": {
+    "total_component_tests": 3,
+    "successful_component_tests": 3,
+    "total_system_tests": 1,
+    "successful_system_tests": 1,
+    "total_tests": 4,
+    "successful_tests": 4
+  },
+  "key_metrics": {
+    "total_tests_analyzed": 4,
+    "overall_effectiveness": "unknown",
+    "key_improvements": {},
+    "performance_highlights": []
+  },
+  "outputs": {
+    "plots_generated": 3,
+    "data_files_created": 4,
+    "results_directory": "results/"
+  }
+}

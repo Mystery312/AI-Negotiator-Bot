@@ -1,0 +1,223 @@
+{
+  "report_timestamp": "2025-10-02T10:18:35.571566",
+  "report_id": "summary_20251002_101835",
+  "executive_summary": {
+    "total_tests_analyzed": 4,
+    "overall_effectiveness": "unknown",
+    "key_improvements": {},
+    "performance_highlights": []
+  },
+  "component_analysis": {
+    "aggregation_timestamp": "2025-10-02T10:18:35.523033",
+    "component_tests": {
+      "preference_estimator": {
+        "baseline_accuracy_mean": {
+          "mean": 0.7041343909870894,
+          "std": 0.0038299269976845712,
+          "median": 0.7027107957281171,
+          "min": 0.6992301945128638,
+          "max": 0.7099586438178154,
+          "count": 5
+        },
+        "baseline_accuracy_max": {
+          "mean": 0.9891626863885039,
+          "std": 0.0032306639953567622,
+          "median": 0.9875130917129913,
+          "min": 0.9870594191979221,
+          "max": 0.9955627231136717,
+          "count": 5
+        },
+        "model_accuracy_mean": {
+          "mean": 0.7643844061286396,
+          "std": 0.010715589723407033,
+          "median": 0.7637530690588549,
+          "min": 0.7516354501635919,
+          "max": 0.782593304000828,
+          "count": 5
+        },
+        "utility_error_min": {
+          "mean": 1.4901161193847657e-09,
+          "std": 2.980232238769532e-09,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 7.450580596923828e-09,
+          "count": 5
+        },
+        "processing_time_ms_median": {
+          "mean": 13.354301452636719,
+          "std": 0.47228424737622154,
+          "median": 13.326525688171387,
+          "min": 12.781977653503418,
+          "max": 14.168500900268555,
+          "count": 5
+        },
+        "processing_time_ms_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "median": 1000.0,
+          "min": 1000,
+          "max": 1000,
+          "count": 5
+        },
+        "utility_error_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "median": 1000.0,
+          "min": 1000,
+          "max": 1000,
+          "count": 5
+        },
+        "baseline_accuracy_median": {
+          "mean": 0.7182665022359899,
+          "std": 0.006555500400350911,
+          "median": 0.7188595225586967,
+          "min": 0.7072844808345934,
+          "max": 0.7273448289436782,
+          "count": 5
+        },
+        "processing_time_ms_mean": {
+          "mean": 13.660622119903564,
+          "std": 0.5230103597837586,
+          "median": 13.65023422241211,
+          "min": 13.032224178314209,
+          "max": 14.5359787940979,
+          "count": 5
+        },
+        "utility_error_std": {
+          "mean": 0.13273028226102512,
+          "std": 0.0051635287428737865,
+          "median": 0.13167878230132765,
+          "min": 0.12609738485082478,
+          "max": 0.1418000419686584,
+          "count": 5
+        },
+        "processing_time_ms_max": {
+          "mean": 37.106943130493164,
+          "std": 1.2882479924960046,
+          "median": 36.887168884277344,
+          "min": 35.932302474975586,
+          "max": 39.56747055053711,
+          "count": 5
+        },
+        "model_accuracy_median": {
+          "mean": 0.7633298779893856,
+          "std": 0.013691047792771941,
+          "median": 0.7654387723652994,
+          "min": 0.7388277323513532,
+          "max": 0.7811594665437092,
+          "count": 5
+        },
+        "baseline_accuracy_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "median": 1000.0,
+          "min": 1000,
+          "max": 1000,
+          "count": 5
+        },
+        "utility_error_max": {
+          "mean": 0.6303928997545014,
+          "std": 0.039021366298031344,
+          "median": 0.6384030597077475,
+          "min": 0.5738101320134268,
+          "max": 0.6808888630734549,
+          "count": 5
+        },
+        "utility_error_mean": {
+          "mean": 0.2283901399307024,
+          "std": 0.005973010535055308,
+          "median": 0.22612833808795327,
+          "min": 0.22017485537067769,
+          "max": 0.23773336874878123,
+          "count": 5
+        },
+        "model_accuracy_std": {
+          "mean": 0.0880207807256111,
+          "std": 0.00901618540252691,
+          "median": 0.08891193456430033,
+          "min": 0.07174797287326114,
+          "max": 0.09638418662491267,
+          "count": 5
+        },
+        "model_accuracy_max": {
+          "mean": 0.9833007328801721,
+          "std": 0.007104240411262935,
+          "median": 0.9804974054485797,
+          "min": 0.9740491015145316,
+          "max": 0.994000853214845,
+          "count": 5
+        },
+        "baseline_accuracy_min": {
+          "mean": 0.1981720213909473,
+          "std": 0.022943519898719657,
+          "median": 0.19349148884540468,
+          "min": 0.17264327349985314,
+          "max": 0.2405847952288984,
+          "count": 5
+        },
+        "baseline_accuracy_std": {
+          "mean": 0.15139733833292732,
+          "std": 0.0028667971813808256,
+          "median": 0.15144756798205597,
+          "min": 0.1463898549156761,
+          "max": 0.1547424157287056,
+          "count": 5
+        },
+        "model_accuracy_min": {
+          "mean": 0.510415717386301,
+          "std": 0.039983822731407374,
+          "median": 0.5174442717851793,
+          "min": 0.43739950186315374,
+          "max": 0.553239866953202,
+          "count": 5
+        },
+        "processing_time_ms_std": {
+          "mean": 3.049553128189866,
+          "std": 0.12786076338848265,
+          "median": 3.047284164281154,
+          "min": 2.8533741954625094,
+          "max": 3.2506432838130106,
+          "count": 5
+        },
+        "utility_error_median": {
+          "mean": 0.22688732761948827,
+          "std": 0.007000278077516575,
+          "median": 0.2269684879316224,
+          "min": 0.21565595517555874,
+          "max": 0.23733599643622127,
+          "count": 5
+        },
+        "model_accuracy_count": {
+          "mean": 1000.0,
+          "std": 0.0,
+          "median": 1000.0,
+          "min": 1000,
+          "max": 1000,
+          "count": 5
+        },
+        "processing_time_ms_min": {
+          "mean": 8.745193481445312,
+          "std": 0.10132054694956642,
+          "median": 8.727788925170898,
+          "min": 8.604288101196289,
+          "max": 8.904457092285156,
+          "count": 5
+        }
+      },
+      "rag_effectiveness": {},
+      "conversation_scoring": {}
+    }
+  },
+  "system_analysis": {
+    "aggregation_timestamp": "2025-10-02T10:18:35.570566",
+    "system_tests": {
+      "end_to_end": {}
+    }
+  },
+  "comparison_analysis": {
+    "creation_timestamp": "2025-10-02T10:18:35.571560",
+    "test_comparison": {}
+  },
+  "key_findings": [],
+  "recommendations": []
+}

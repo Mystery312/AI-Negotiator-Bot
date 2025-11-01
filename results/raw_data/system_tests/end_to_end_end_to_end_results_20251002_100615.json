@@ -1,0 +1,170 @@
+{
+  "test_type": "end_to_end",
+  "start_time": 1759367174.4065692,
+  "end_time": 1759367175.877877,
+  "duration": 1.4713079929351807,
+  "sample_count": 5,
+  "statistics": {},
+  "data": [
+    {
+      "scenario": {
+        "scenario_id": "book_negotiation",
+        "description": "Negotiating over books, hats, and balls",
+        "items": {
+          "books": 5,
+          "hats": 3,
+          "balls": 2
+        },
+        "complexity": "medium",
+        "expected_duration": 20
+      },
+      "human_only": {
+        "success": true,
+        "utility": 0.5411112068585999,
+        "duration_minutes": 25.459622306039044,
+        "satisfaction": 5.0,
+        "method": "human_only"
+      },
+      "ai_assisted": {
+        "success": true,
+        "utility": 0.7629337172792579,
+        "duration_minutes": 13.710858732199847,
+        "satisfaction": 5.0,
+        "method": "ai_assisted",
+        "ai_processing_time": 0.0159761905670166,
+        "advice_quality": 0.8548549101071369,
+        "advice_efficiency": 0.7783685058317783
+      },
+      "timestamp": "2025-10-02T10:06:14.467593",
+      "sample_id": "end_to_end_0000"
+    },
+    {
+      "scenario": {
+        "scenario_id": "simple_split",
+        "description": "Simple 50-50 split negotiation",
+        "items": {
+          "item1": 4,
+          "item2": 4
+        },
+        "complexity": "low",
+        "expected_duration": 10
+      },
+      "human_only": {
+        "success": true,
+        "utility": 0.5969716410441407,
+        "duration_minutes": 16.559196029141233,
+        "satisfaction": 5.0,
+        "method": "human_only"
+      },
+      "ai_assisted": {
+        "success": true,
+        "utility": 0.8660228096506123,
+        "duration_minutes": 7.218571422630841,
+        "satisfaction": 5.0,
+        "method": "ai_assisted",
+        "ai_processing_time": 0.009905338287353516,
+        "advice_quality": 0.8526852745119534,
+        "advice_efficiency": 0.8140214409523178
+      },
+      "timestamp": "2025-10-02T10:06:14.516153",
+      "sample_id": "end_to_end_0001"
+    },
+    {
+      "scenario": {
+        "scenario_id": "complex_multi_item",
+        "description": "Complex multi-item negotiation",
+        "items": {
+          "books": 8,
+          "hats": 6,
+          "balls": 4,
+          "toys": 3,
+          "games": 2
+        },
+        "complexity": "high",
+        "expected_duration": 35
+      },
+      "human_only": {
+        "success": true,
+        "utility": 0.5377741568989224,
+        "duration_minutes": 27.90397706997644,
+        "satisfaction": 4.695637833833192,
+        "method": "human_only"
+      },
+      "ai_assisted": {
+        "success": false,
+        "utility": 0.6944783713557113,
+        "duration_minutes": 13.871385684545375,
+        "satisfaction": 5.0,
+        "method": "ai_assisted",
+        "ai_processing_time": 0.12618613243103027,
+        "advice_quality": 0.6394060923509424,
+        "advice_efficiency": 0.8653772918210827
+      },
+      "timestamp": "2025-10-02T10:06:15.148623",
+      "sample_id": "end_to_end_0002"
+    },
+    {
+      "scenario": {
+        "scenario_id": "unequal_items",
+        "description": "Negotiation with unequal item counts",
+        "items": {
+          "rare_item": 1,
+          "common_item": 10
+        },
+        "complexity": "medium",
+        "expected_duration": 25
+      },
+      "human_only": {
+        "success": true,
+        "utility": 0.5643388403385977,
+        "duration_minutes": 22.547120261649013,
+        "satisfaction": 5.0,
+        "method": "human_only"
+      },
+      "ai_assisted": {
+        "success": false,
+        "utility": 0.806944910864022,
+        "duration_minutes": 12.073618963687757,
+        "satisfaction": 5.0,
+        "method": "ai_assisted",
+        "ai_processing_time": 0.011999368667602539,
+        "advice_quality": 0.7580583490588372,
+        "advice_efficiency": 0.7815143471180787
+      },
+      "timestamp": "2025-10-02T10:06:15.203055",
+      "sample_id": "end_to_end_0003"
+    },
+    {
+      "scenario": {
+        "scenario_id": "high_stakes",
+        "description": "High-stakes negotiation with pressure",
+        "items": {
+          "valuable": 2,
+          "important": 3,
+          "desired": 1
+        },
+        "complexity": "high",
+        "expected_duration": 30
+      },
+      "human_only": {
+        "success": true,
+        "utility": 0.5523345343582059,
+        "duration_minutes": 28.443009374829177,
+        "satisfaction": 5.0,
+        "method": "human_only"
+      },
+      "ai_assisted": {
+        "success": false,
+        "utility": 0.7275680723209751,
+        "duration_minutes": 14.225880092106136,
+        "satisfaction": 5.0,
+        "method": "ai_assisted",
+        "ai_processing_time": 0.010264873504638672,
+        "advice_quality": 0.6955490278688982,
+        "advice_efficiency": 0.8262938337925221
+      },
+      "timestamp": "2025-10-02T10:06:15.254332",
+      "sample_id": "end_to_end_0004"
+    }
+  ]
+}
