@@ -2,6 +2,16 @@
 
 A multi-party negotiation system with AI assistance, real-time analysis, and Pareto-optimal proposal generation.
 
+Abstract: 
+ Although there has been many discussion about the philosophical and impacts of AI’s being implemented into a negotiation setting, realistic development to actually apply LLM’s to evaluate and help users navigate negotiation settings have not been addressed.
+In this project, we navigate the task of using the prisoner’s dilemma and fundamental game theory ideas, such as the Prisoner's Dilemma, Nash Equilibrium, and the Iterated Prisoner's Dilemma (IPD), to provide goal-oriented and actionable feedback, along with analyzing the overall metrics in a negotiation.
+
+The suggested system stores conversation-based data in the graph database Neo4j to represent the complex relationship between interacting parties in the conversation. The coaching algorithm uses a tic for tat system to build up intentions to cooperate, real-time situation responses, and long-term trust. The algorithm uses a gradio based interface to allow users to access chat history, visual graphs based on negotiations, statistical analyses and direct/intuitive coaching messages. 
+
+After testing, results show that the model showed meaningful attempts at negotiation between parties. This has allowed for consideration of future implication in areas like the simulation economic interactions with material objects, buisness settings where understanding moves between real-time negotiations is key, and even in the use of daily interactions. This paper shows how AI can be used as a strategical negotiation and decision making tool in the future in order to overcome logical traps like the prisoner’s dilemma, but not necessarily as a replacement for human judgement.
+
+
+
 > For a deep dive into the architecture and methods, see [AI Negotiation System: Architecture, Methods, and Usage](docs/AI_NEGOTIATION_SYSTEM.md).
 
 ## 🚀 Quick Start
@@ -422,3 +432,4 @@ For issues and questions:
 - The UI is designed for both real negotiations and simulation/testing.
 - You can refresh the model list if you add new models to Ollama or Gemini while the UI is running.
 - Exporting conversations is useful for sharing negotiation transcripts or for research.
+
