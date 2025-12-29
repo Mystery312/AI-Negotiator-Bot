@@ -1,4 +1,5 @@
 import logging
+import copy
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime
 from app.models import (
@@ -328,12 +329,20 @@ class BaseLogicEngine:
     def _generate_counter_proposal(
         self, proposal: Proposal, needs: ResourceRequest
     ) -> Dict[str, float]:
-        
-        counter = proposal.allocations.copy()
+        """Generate a counter-proposal with modified allocations.
+
+        Uses deep copy to avoid mutating the original proposal's allocations.
+        """
+        # Deep copy to prevent modification of original proposal
+        counter = copy.deepcopy(proposal.allocations)
+
+        # Get or create allocation dict for this department
         own_allocation = counter.get(needs.department_id, {})
 
+        # Modify the allocation (90% of requested amount)
         own_allocation[needs.resource_type] = needs.quantity * 0.9
         counter[needs.department_id] = own_allocation
+
         return counter
 
     def _model_other_priorities(
