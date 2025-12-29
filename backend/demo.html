@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Management System - Live Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 5px;
+            border-left: 4px solid #4caf50;
+            display: none;
+        }
+        .result.error {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+        .result pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-top: 10px;
+        }
+        .api-key-display {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status.connected {
+            background: #4caf50;
+            color: white;
+        }
+        .status.disconnected {
+            background: #f44336;
+            color: white;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #666;
+            font-size: 16px;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .negotiation-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .negotiation-item h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Resource Management System</h1>
+        <p class="subtitle">Multi-Department AI Negotiation Platform</p>
+        
+        <div style="text-align: center; margin-bottom: 20px;">
+            <span>API Status: </span>
+            <span id="apiStatus" class="status disconnected">Disconnected</span>
+            <button onclick="checkAPI()" style="margin-left: 10px; padding: 5px 15px; font-size: 12px;">Check Connection</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('auth')">Authentication</button>
+            <button class="tab" onclick="switchTab('departments')">Departments</button>
+            <button class="tab" onclick="switchTab('pools')">Resource Pools</button>
+            <button class="tab" onclick="switchTab('negotiations')">Negotiations</button>
+        </div>
+
+        <div id="auth" class="tab-content active">
+            <div class="section">
+                <h2>Get API Key</h2>
+                <div class="form-group">
+                    <label>Organization:</label>
+                    <input type="text" id="orgName" placeholder="My Company" value="Demo Company">
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="email" placeholder="admin@company.com" value="admin@demo.com">
+                </div>
+                <div class="form-group">
+                    <label>Role:</label>
+                    <select id="role">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                        <option value="readonly">Read Only</option>
+                    </select>
+                </div>
+                <button onclick="registerAPIKey()">Register & Get API Key</button>
+                <div id="apiKeyResult" class="result"></div>
+            </div>
+        </div>
+
+        <div id="departments" class="tab-content">
+            <div class="section">
+                <h2>Create Department</h2>
+                <div class="form-group">
+                    <label>Department Name:</label>
+                    <input type="text" id="deptName" placeholder="Engineering">
+                </div>
+                <div class="form-group">
+                    <label>Resource Priorities (JSON):</label>
+                    <textarea id="deptPriorities" rows="3" placeholder='{"budget": 0.8, "personnel": 0.9}'>{"budget": 0.8, "personnel": 0.9}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Strategic Objectives (comma-separated):</label>
+                    <input type="text" id="deptObjectives" placeholder="Product development, Infrastructure">
+                </div>
+                <button onclick="createDepartment()">Create Department</button>
+                <div id="deptResult" class="result"></div>
+            </div>
+        </div>
+
+        <div id="pools" class="tab-content">
+            <div class="section">
+                <h2>Create Resource Pool</h2>
+                <div class="form-group">
+                    <label>Resource Type:</label>
+                    <select id="poolType">
+                        <option value="budget">Budget</option>
+                        <option value="personnel">Personnel</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="time">Time</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Total Available:</label>
+                    <input type="number" id="poolTotal" placeholder="1000000" value="1000000">
+                </div>
+                <div class="form-group">
+                    <label>Description:</label>
+                    <input type="text" id="poolDesc" placeholder="Q1 2024 Budget">
+                </div>
+                <button onclick="createResourcePool()">Create Resource Pool</button>
+                <div id="poolResult" class="result"></div>
+            </div>
+            <div class="section">
+                <h2>Resource Pools</h2>
+                <button onclick="listResourcePools()">Refresh List</button>
+                <div id="poolsList" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
+        <div id="negotiations" class="tab-content">
+            <div class="section">
+                <h2>Create Negotiation</h2>
+                <div class="form-group">
+                    <label>Participants (comma-separated department IDs):</label>
+                    <input type="text" id="participants" placeholder="engineering, marketing, sales">
+                </div>
+                <div class="form-group">
+                    <label>Resource Pool ID:</label>
+                    <input type="text" id="poolId" placeholder="Enter pool ID from above">
+                </div>
+                <div class="form-group">
+                    <label>Negotiation Type:</label>
+                    <select id="negType">
+                        <option value="budget">Budget</option>
+                        <option value="personnel">Personnel</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="mixed">Mixed</option>
+                    </select>
+                </div>
+                <button onclick="createNegotiation()">Start Negotiation</button>
+                <div id="negResult" class="result"></div>
+            </div>
+            <div class="section">
+                <h2>Active Negotiations</h2>
+                <button onclick="listNegotiations()">Refresh List</button>
+                <div id="negotiationsList" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/v1';
+        let apiKey = localStorage.getItem('apiKey') || '';
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function checkAPI() {
+            fetch('http://localhost:8000/health')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('apiStatus').textContent = 'Connected';
+                    document.getElementById('apiStatus').className = 'status connected';
+                })
+                .catch(err => {
+                    document.getElementById('apiStatus').textContent = 'Disconnected';
+                    document.getElementById('apiStatus').className = 'status disconnected';
+                });
+        }
+
+        function registerAPIKey() {
+            const org = document.getElementById('orgName').value;
+            const email = document.getElementById('email').value;
+            const role = document.getElementById('role').value;
+
+            fetch(`${API_BASE}/auth/register`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({organization: org, email: email, role: role})
+            })
+            .then(r => r.json())
+            .then(data => {
+                apiKey = data.api_key;
+                localStorage.setItem('apiKey', apiKey);
+                document.getElementById('apiKeyResult').style.display = 'block';
+                document.getElementById('apiKeyResult').className = 'result';
+                document.getElementById('apiKeyResult').innerHTML = `
+                    <strong>API Key Generated!</strong>
+                    <div class="api-key-display">${apiKey}</div>
+                    <p style="margin-top: 10px;">This key has been saved to your browser.</p>
+                `;
+            })
+            .catch(err => {
+                document.getElementById('apiKeyResult').style.display = 'block';
+                document.getElementById('apiKeyResult').className = 'result error';
+                document.getElementById('apiKeyResult').innerHTML = `<strong>Error:</strong> ${err.message}`;
+            });
+        }
+
+        function createDepartment() {
+            if (!apiKey) {
+                alert('Please get an API key first!');
+                return;
+            }
+
+            const name = document.getElementById('deptName').value;
+            const priorities = JSON.parse(document.getElementById('deptPriorities').value || '{}');
+            const objectives = document.getElementById('deptObjectives').value.split(',').map(s => s.trim());
+
+            fetch(`${API_BASE}/departments`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({
+                    name: name,
+                    resource_priorities: priorities,
+                    strategic_objectives: objectives
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('deptResult').style.display = 'block';
+                document.getElementById('deptResult').className = 'result';
+                document.getElementById('deptResult').innerHTML = `<strong>Success!</strong><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            })
+            .catch(err => {
+                document.getElementById('deptResult').style.display = 'block';
+                document.getElementById('deptResult').className = 'result error';
+                document.getElementById('deptResult').innerHTML = `<strong>Error:</strong> ${err.message}`;
+            });
+        }
+
+        function createResourcePool() {
+            if (!apiKey) {
+                alert('Please get an API key first!');
+                return;
+            }
+
+            const type = document.getElementById('poolType').value;
+            const total = parseFloat(document.getElementById('poolTotal').value);
+            const desc = document.getElementById('poolDesc').value;
+
+            fetch(`${API_BASE}/resource-pools`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({
+                    resource_type: type,
+                    total_available: total,
+                    description: desc
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('poolResult').style.display = 'block';
+                document.getElementById('poolResult').className = 'result';
+                document.getElementById('poolResult').innerHTML = `<strong>Success!</strong><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                listResourcePools();
+            })
+            .catch(err => {
+                document.getElementById('poolResult').style.display = 'block';
+                document.getElementById('poolResult').className = 'result error';
+                document.getElementById('poolResult').innerHTML = `<strong>Error:</strong> ${err.message}`;
+            });
+        }
+
+        function listResourcePools() {
+            if (!apiKey) {
+                alert('Please get an API key first!');
+                return;
+            }
+
+            fetch(`${API_BASE}/resource-pools`, {
+                headers: {'X-API-Key': apiKey}
+            })
+            .then(r => r.json())
+            .then(data => {
+                const list = document.getElementById('poolsList');
+                if (data.pools && data.pools.length > 0) {
+                    list.innerHTML = data.pools.map(p => `
+                        <div class="negotiation-item">
+                            <h3>${p.pool_id}</h3>
+                            <p><strong>Type:</strong> ${p.resource_type}</p>
+                            <p><strong>Total:</strong> ${p.total_available.toLocaleString()}</p>
+                            <p><strong>Available:</strong> ${p.available.toLocaleString()}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = '<p>No resource pools found. Create one above!</p>';
+                }
+            })
+            .catch(err => {
+                document.getElementById('poolsList').innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+            });
+        }
+
+        function createNegotiation() {
+            if (!apiKey) {
+                alert('Please get an API key first!');
+                return;
+            }
+
+            const participants = document.getElementById('participants').value.split(',').map(s => s.trim());
+            const poolId = document.getElementById('poolId').value;
+            const type = document.getElementById('negType').value;
+
+            fetch(`${API_BASE}/negotiations`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({
+                    participants: participants,
+                    resource_pool_id: poolId,
+                    negotiation_type: type
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('negResult').style.display = 'block';
+                document.getElementById('negResult').className = 'result';
+                document.getElementById('negResult').innerHTML = `<strong>Negotiation Started!</strong><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                listNegotiations();
+            })
+            .catch(err => {
+                document.getElementById('negResult').style.display = 'block';
+                document.getElementById('negResult').className = 'result error';
+                document.getElementById('negResult').innerHTML = `<strong>Error:</strong> ${err.message}`;
+            });
+        }
+
+        function listNegotiations() {
+            if (!apiKey) {
+                alert('Please get an API key first!');
+                return;
+            }
+
+            fetch(`${API_BASE}/negotiations`, {
+                headers: {'X-API-Key': apiKey}
+            })
+            .then(r => r.json())
+            .then(data => {
+                const list = document.getElementById('negotiationsList');
+                if (data.negotiations && data.negotiations.length > 0) {
+                    list.innerHTML = data.negotiations.map(n => `
+                        <div class="negotiation-item">
+                            <h3>${n.session_id}</h3>
+                            <p><strong>Status:</strong> ${n.status}</p>
+                            <p><strong>Participants:</strong> ${n.participants.join(', ')}</p>
+                            <p><strong>Round:</strong> ${n.round}</p>
+                            <button onclick="viewNegotiation('${n.session_id}')" style="margin-top: 10px;">View Details</button>
+                        </div>
+                    `).join('');
+                } else {
+                    list.innerHTML = '<p>No negotiations found. Create one above!</p>';
+                }
+            })
+            .catch(err => {
+                document.getElementById('negotiationsList').innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+            });
+        }
+
+        function viewNegotiation(sessionId) {
+            fetch(`${API_BASE}/negotiations/${sessionId}`, {
+                headers: {'X-API-Key': apiKey}
+            })
+            .then(r => r.json())
+            .then(data => {
+                alert(JSON.stringify(data, null, 2));
+            })
+            .catch(err => alert('Error: ' + err.message));
+        }
+
+        window.onload = function() {
+            checkAPI();
+            if (apiKey) {
+                document.getElementById('apiKeyResult').style.display = 'block';
+                document.getElementById('apiKeyResult').className = 'result';
+                document.getElementById('apiKeyResult').innerHTML = `
+                    <strong>Using saved API key</strong>
+                    <div class="api-key-display">${apiKey.substring(0, 20)}...</div>
+                `;
+            }
+        };
+    </script>
+</body>
+</html>
+

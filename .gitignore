@@ -1,0 +1,4 @@
+.env
+negotiation_chatbot/.env
+.DS_Store
+chroma_db/
