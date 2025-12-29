@@ -81,11 +81,17 @@ async def list_departments(
     status: Optional[str] = Query(None),
     credential: APICredential = Depends(verify_api_key)
 ):
-    
+    """List all registered departments"""
+    # Get departments from registered chatbots
+    departments = [
+        chatbot.department
+        for chatbot in negotiation_orchestrator.chatbots.values()
+    ]
 
-    departments = []
+    # Filter by status if provided
     if status:
         departments = [d for d in departments if d.status == status]
+
     return {"departments": [d.dict() for d in departments]}
 
 @router.get("/departments/{department_id}")
@@ -93,9 +99,14 @@ async def get_department(
     department_id: str,
     credential: APICredential = Depends(verify_api_key)
 ):
-    
+    """Get a specific department by ID"""
+    # Look up department from registered chatbots
+    chatbot = negotiation_orchestrator.chatbots.get(department_id)
 
-    raise HTTPException(status_code=404, detail="Department not found")
+    if not chatbot:
+        raise HTTPException(status_code=404, detail="Department not found")
+
+    return chatbot.department.dict()
 
 @router.post("/departments")
 async def create_department(
