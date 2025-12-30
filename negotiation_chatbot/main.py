@@ -112,16 +112,19 @@ async def chat(message: ChatMessage):
         
         logger.info(f"Final labels: {labels}")
         
-        # Step 2: Upsert the turn into Neo4j
+        # Step 2: Upsert the turn into Neo4j (optional - graceful failure)
         logger.info("Step 2: Upserting turn to Neo4j...")
-        upsert_turn(
-            conv_id=message.conv_id,
-            speaker=message.speaker,
-            text=message.text,
-            move=labels["move"],
-            pd=labels["pd"]
-        )
-        logger.info("Turn upserted successfully")
+        try:
+            upsert_turn(
+                conv_id=message.conv_id,
+                speaker=message.speaker,
+                text=message.text,
+                move=labels["move"],
+                pd=labels["pd"]
+            )
+            logger.info("Turn upserted successfully")
+        except Exception as e:
+            logger.warning(f"Failed to upsert turn to Neo4j (continuing without graph): {e}")
         
         # Step 3: Get advice from the coach with selected model and provider
         logger.info(f"Step 3: Getting advice from coach using model {message.model} and provider {message.provider}...")

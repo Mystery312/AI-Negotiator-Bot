@@ -15,17 +15,22 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Neo4j connection parameters
+ENABLE_NEO4J = os.getenv("ENABLE_NEO4J", "false").lower() == "true"
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASS = os.getenv("NEO4J_PASSWORD", "6xlBSIDu8Nc8gjXrpt3kNuwM7AZHGI3WJrfpN2fFDXE")
 
 # Initialize Neo4j driver
-try:
-    driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS))
-    logger.info("Connected to Neo4j database")
-except Exception as e:
-    logger.error(f"Failed to connect to Neo4j: {e}")
-    driver = None
+driver = None
+if ENABLE_NEO4J:
+    try:
+        driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS), max_connection_lifetime=5, connection_acquisition_timeout=5)
+        logger.info("Connected to Neo4j database")
+    except Exception as e:
+        logger.warning(f"Neo4j connection failed (continuing without graph features): {e}")
+        driver = None
+else:
+    logger.info("Neo4j disabled (set ENABLE_NEO4J=true to enable graph features)")
 
 def upsert_turn(conv_id: str, speaker: str, text: str, move: str, pd: str):
     """

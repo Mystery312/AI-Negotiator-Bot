@@ -1173,6 +1173,7 @@ provider = get_provider_from_model(DEFAULT_MODEL)
 default_client = create_llm_client(provider, DEFAULT_MODEL)
 
 # Initialize Neo4j driver directly
+ENABLE_NEO4J = os.getenv("ENABLE_NEO4J", "false").lower() == "true"
 NEO4J_URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 NEO4J_USER = os.getenv("NEO4J_USER", "neo4j")
 NEO4J_PASS = os.getenv("NEO4J_PASSWORD", "6xlBSIDu8Nc8gjXrpt3kNuwM7AZHGI3WJrfpN2fFDXE")
@@ -1189,12 +1190,16 @@ SYSTEM_PROMPT = (
 
 # USER_TEMPLATE is replaced with inline prompt in _llm_generate_reply
 
-try:
-    neo4j_driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS))
-    logger.info("Connected to Neo4j database for coach module")
-except Exception as e:
-    logger.error(f"Failed to connect to Neo4j: {e}")
-    neo4j_driver = None
+neo4j_driver = None
+if ENABLE_NEO4J:
+    try:
+        neo4j_driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS), max_connection_lifetime=5, connection_acquisition_timeout=5)
+        logger.info("Connected to Neo4j database for coach module")
+    except Exception as e:
+        logger.warning(f"Neo4j connection failed for coach (continuing without graph features): {e}")
+        neo4j_driver = None
+else:
+    logger.info("Neo4j disabled for coach module (set ENABLE_NEO4J=true to enable)")
 
 def score_turns(my_moves, opp_moves):
     """
