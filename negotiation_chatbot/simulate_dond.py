@@ -29,9 +29,9 @@ from typing import Callable, Dict, Sequence, Optional
 
 # Flexible imports for package/script modes
 try:
-    from app.dond_data import load_dond
-    from app.pareto import best_offer, utility
-    from app.preference import estimate_preferences
+    from negotiation_chatbot.dond_data import load_dond
+    from negotiation_chatbot.pareto import best_offer, utility
+    from negotiation_chatbot.preference import estimate_preferences
 except ImportError:  # running as script
     from dond_data import load_dond
     from pareto import best_offer, utility

@@ -248,7 +248,7 @@ def get_available_models() -> Dict[str, List[str]]:
     """
     try:
         try:
-            from app.llm_client import get_available_providers
+            from negotiation_chatbot.llm_client import get_available_providers
         except ImportError:
             from llm_client import get_available_providers
         providers = get_available_providers()
@@ -373,7 +373,7 @@ def load_conversation(conv_id: str) -> List[Dict]:
     return []
 
 try:
-    from app.dond_data import load_dond
+    from negotiation_chatbot.dond_data import load_dond
 except ImportError:
     from dond_data import load_dond
 
@@ -814,7 +814,7 @@ def detect_deal_outcome_llm(turns: List[str], model: str = "qwen3:latest") -> st
     try:
         # Try to import LLM client
         try:
-            from app.llm_client import create_llm_client, get_provider_from_model
+            from negotiation_chatbot.llm_client import create_llm_client, get_provider_from_model
         except ImportError:
             from llm_client import create_llm_client, get_provider_from_model
         
@@ -1144,7 +1144,7 @@ def create_unified_interface():
     logger.info(f"Final models for dropdown: {available_models}")
     logger.info(f"Default model selected: {default_model}")
     
-    with gr.Blocks(title="AI Chat Negotiator", theme=gr.themes.Soft(), css="app/style.css") as demo:
+    with gr.Blocks(title="AI Chat Negotiator") as demo:
         gr.Markdown("# AI Chat Negotiator")
         gr.Markdown("Multi-party negotiation with AI assistance and real-time analysis.")
         
@@ -1188,10 +1188,9 @@ def create_unified_interface():
             with gr.Column(scale=1):
                 # Chat interface
                 chatbot = gr.Chatbot(
-                    label="Negotiation Chat", 
-                    height=500, 
-                    show_label=False, 
-                    type="messages",
+                    label="Negotiation Chat",
+                    height=500,
+                    show_label=False,
                     sanitize_html=False
                 )
                 
@@ -1289,7 +1288,7 @@ def create_unified_interface():
             def run_pareto_sim(n, baseline, ratio, model):
                 try:
                     # Prefer absolute import when running within app package
-                    from app.simulate_dond import simulate_with_coach  # type: ignore
+                    from negotiation_chatbot.simulate_dond import simulate_with_coach  # type: ignore
                 except Exception:
                     # Fallback for script mode
                     from simulate_dond import simulate_with_coach  # type: ignore
@@ -1420,7 +1419,7 @@ def create_unified_interface():
             # Auto-generate bot proposal for role B (other party) messages
             if msg_role == "B":
                 try:
-                    from app.autoplay import generate_bot_proposal, format_proposal_message
+                    from negotiation_chatbot.autoplay import generate_bot_proposal, format_proposal_message
                     
                     # Extract conversation turns for preference estimation
                     turns = []
@@ -1568,4 +1567,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     demo = create_unified_interface()
-    demo.launch(server_name="0.0.0.0", server_port=args.server_port, share=False, show_error=True) 
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=args.server_port,
+        share=False,
+        show_error=True
+    ) 

@@ -1,324 +1,356 @@
-# Multi-Project Repository
+# AI Negotiation Chatbot System
 
-This repository contains two independent systems:
-
-1. **Negotiation Chatbot** - AI-powered multi-party negotiation system
-2. **Resource Management Backend** - REST API for resource management system
-
----
-
-## 📁 Project Structure
-
-```
-chatbot/
-├── negotiation_chatbot/          # AI Negotiation Chatbot Application
-│   ├── main.py                   # FastAPI server
-│   ├── gradio_ui.py              # Gradio UI
-│   ├── coach.py                  # AI coaching logic
-│   ├── casino_rag.py             # RAG implementation
-│   └── ...                       # Other modules
-│
-├── backend/                      # Resource Management Backend
-│   ├── app/                      # Backend application code
-│   │   ├── main.py               # FastAPI server
-│   │   ├── frontend_routes.py    # Frontend API endpoints
-│   │   ├── frontend_storage.py   # In-memory storage
-│   │   ├── api_routes.py         # Negotiation API
-│   │   └── models.py             # Data models
-│   ├── FRONTEND_INTEGRATION_GUIDE.md
-│   ├── API_QUICK_REFERENCE.md
-│   └── start_backend.sh          # Easy startup script
-│
-├── docs/                         # Documentation
-│   ├── START_HERE.md             # Quick start for negotiation chatbot
-│   ├── NEGOTIATION_CHATBOT.md    # Chatbot documentation
-│   ├── CHATBOT_GUIDE.md          # Feature guide
-│   ├── HOW_TO_RUN.md             # Setup instructions
-│   ├── BACKEND_INTEGRATION_COMPLETE.md
-│   └── ...                       # Other documentation
-│
-├── data/                         # Negotiation data (CaSiNo corpus)
-├── chroma_db/                    # Vector database
-├── .env                          # Environment configuration
-├── docker-compose.yml            # Docker setup (for negotiation chatbot)
-├── requirements.txt              # Python dependencies
-└── test_app.py                   # Test script
-```
-
----
+A comprehensive multi-party negotiation system with AI-powered coaching, real-time analysis, Pareto-optimal proposal generation, and resource management capabilities.
 
 ## 🚀 Quick Start
 
-### Option 1: Negotiation Chatbot
+### Launch the Application
 
-**Start with Docker Compose (Recommended):**
 ```bash
-docker-compose up --build
-# Access UI at http://localhost:7860
-```
+# Quick Demo (recommended for first-time users)
+./start_demo.sh
 
-**Or start locally:**
-```bash
-# Terminal 1: API Server
-python -m negotiation_chatbot.main
-
-# Terminal 2: Gradio UI
+# Or manually
 python -m negotiation_chatbot.gradio_ui
 ```
 
-**📖 Documentation:**
-- [docs/START_HERE.md](docs/START_HERE.md) - Quick start guide
-- [docs/NEGOTIATION_CHATBOT.md](docs/NEGOTIATION_CHATBOT.md) - Full documentation
-- [docs/HOW_TO_RUN.md](docs/HOW_TO_RUN.md) - Setup instructions
+**Access**: http://localhost:7860
 
----
+For detailed instructions, see **[RUN_DEMO.md](RUN_DEMO.md)** or **[START_HERE.md](START_HERE.md)**
 
-### Option 2: Resource Management Backend
+### Quick Reference
 
-**Start the backend:**
-```bash
-cd backend
-./start_backend.sh
-# Access API at http://localhost:8000
+| Component | URL | Purpose |
+|-----------|-----|---------|
+| **Gradio UI** | http://localhost:7860 | Main negotiation interface |
+| **Backend API** | http://localhost:8000 | REST API endpoints |
+| **Frontend** | http://localhost:3000 | React resource management UI |
+| **API Docs** | http://localhost:8000/docs | Interactive API documentation |
+
+## 📋 Project Overview
+
+This system combines two powerful applications:
+
+1. **Negotiation Chatbot** - AI-powered negotiation assistance with coach advice, conversation analysis, and optimal proposal generation
+2. **Resource Management System** - Multi-department resource allocation with API-driven negotiation engine
+
+## 🏗️ Project Structure
+
+```
+chatbot/
+├── 📄 README.md                       # This file - main entry point
+├── 📄 START_HERE.md                   # Getting started guide
+├── 📄 RUN_DEMO.md                     # Demo launch instructions
+├── 📄 QUICK_START.md                  # Quick reference guide
+├── 📄 DOND_DATASET_SETUP.md          # Dataset setup documentation
+│
+├── 🚀 start_demo.sh                   # Demo launcher script
+├── 🛑 stop_demo.sh                    # Demo stopper script
+├── 📦 requirements.txt                # Python dependencies
+├── 🔒 .gitignore                      # Git ignore rules
+│
+├── 📁 scripts/                        # Utility scripts
+│   ├── create_sample_dond_data.py    # Generate sample negotiations
+│   ├── setup_dond_dataset.py         # Download full dataset
+│   └── test_app.py                   # Test application setup
+│
+├── 📁 negotiation_chatbot/            # Main chatbot application
+│   ├── gradio_ui.py                  # Gradio web interface
+│   ├── main.py                       # FastAPI backend
+│   ├── coach.py                      # AI coaching logic
+│   ├── rag.py                        # Retrieval-augmented generation
+│   ├── pareto.py                     # Pareto optimization
+│   ├── preference.py                 # Preference estimation
+│   ├── autoplay.py                   # Auto-proposal generation
+│   ├── graph.py                      # Neo4j graph operations
+│   ├── llm_client.py                 # Multi-LLM provider support
+│   ├── dond_data.py                  # Dataset utilities
+│   ├── simulate_dond.py              # Bot simulations
+│   └── ...                           # Additional modules
+│
+├── 📁 backend/                        # Resource management backend
+│   └── app/
+│       ├── main.py                   # FastAPI server
+│       ├── api_routes.py             # API endpoints
+│       ├── auth_routes.py            # Authentication
+│       ├── models.py                 # Pydantic models
+│       └── ...                       # Logic engines, orchestrators
+│
+├── 📁 resource-hub-main/              # Frontend React application
+│   ├── src/
+│   │   ├── components/               # React components
+│   │   ├── services/                 # API services
+│   │   └── ...
+│   ├── public/
+│   └── package.json
+│
+├── 📁 deal_or_no_dialog/              # Negotiation dataset
+│   └── exported/
+│       ├── train.jsonl               # Training data
+│       ├── validation.jsonl          # Validation data
+│       └── test.jsonl                # Test data
+│
+├── 📁 data/                           # Application data
+│   └── casino.json                   # CaSiNo corpus (4.1MB)
+│
+├── 📁 docs/                           # Documentation
+│   ├── NEGOTIATION_CHATBOT.md        # Chatbot feature guide
+│   ├── HOW_TO_RUN.md                 # Detailed setup guide
+│   ├── RESOURCE_MANAGEMENT_SYSTEM_PLAN.md
+│   └── archive/                      # Archived documentation
+│
+├── 📁 chroma_db/                      # Vector database (gitignored)
+└── 📁 cache/                          # Cache files (gitignored)
 ```
 
-**Test the API:**
-```bash
-# Dashboard stats
-curl http://localhost:8000/api/dashboard/stats
-
-# Get employees
-curl http://localhost:8000/api/employees
-
-# Interactive docs
-open http://localhost:8000/docs
-```
-
-**📖 Documentation:**
-- [backend/FRONTEND_INTEGRATION_GUIDE.md](backend/FRONTEND_INTEGRATION_GUIDE.md) - Complete API guide
-- [backend/API_QUICK_REFERENCE.md](backend/API_QUICK_REFERENCE.md) - Quick reference
-- [backend/ARCHITECTURE.md](backend/ARCHITECTURE.md) - System architecture
-
----
-
-## 🎯 What Each Project Does
+## 🎯 Key Features
 
 ### Negotiation Chatbot
 
-An AI-powered negotiation coaching system that:
+✅ **AI Coach Advice** - Strategic guidance using RAG and LLMs
+✅ **Conversation Analysis** - Track moves, power dynamics, speaker patterns
+✅ **Pareto Optimization** - Generate optimal proposals
+✅ **Deal Detection** - LLM-based outcome prediction
+✅ **DoND Visualizer** - Analyze real negotiation samples
+✅ **Multi-Model Support** - Ollama, Gemini, OpenAI
+✅ **Graph Storage** - Neo4j conversation tracking
 
-✅ Analyzes conversations in real-time
-✅ Provides strategic coaching advice
-✅ Generates optimal proposals using Pareto optimization
-✅ Uses RAG for context-aware recommendations
-✅ Supports multiple LLM providers (Ollama, OpenAI, Gemini)
-✅ Tracks conversation history in Neo4j graph database
+### Resource Management System
 
-**Tech Stack:** FastAPI, Gradio, Neo4j, ChromaDB, LangChain
+✅ **Department Management** - Create and manage departments
+✅ **Resource Requests** - Submit allocation requests
+✅ **Negotiation Engine** - Multi-round negotiation with proposals
+✅ **Counter-Proposals** - Automated counter-offer generation
+✅ **Pareto Analysis** - Find optimal allocations
+✅ **REST API** - Full API with authentication
+✅ **React Frontend** - Modern UI for resource management
 
-**Ports:**
-- UI: http://localhost:7860
-- API: http://localhost:8000
-- Neo4j: http://localhost:7474
+## 💻 Installation
 
----
-
-### Resource Management Backend
-
-A REST API backend for resource management with:
-
-✅ Full CRUD for Employees, Equipment, Inventory, Rooms, Bookings
-✅ Dashboard statistics endpoint
-✅ In-memory storage (easily swappable to database)
-✅ Sample data included
-✅ Auto-generated API documentation
-✅ CORS enabled for frontend integration
-
-**Tech Stack:** FastAPI, Pydantic, Uvicorn
-
-**Ports:**
-- API: http://localhost:8000
-- Docs: http://localhost:8000/docs
-
-**API Endpoints:**
-- `/api/dashboard/stats` - Dashboard statistics
-- `/api/employees` - Employee CRUD
-- `/api/equipment` - Equipment CRUD
-- `/api/inventory` - Inventory CRUD
-- `/api/rooms` - Room CRUD
-- `/api/bookings` - Booking CRUD
-
----
-
-## 🧪 Testing
-
-### Test Negotiation Chatbot
-```bash
-python test_app.py
-```
-
-### Test Resource Management Backend
-```bash
-cd backend
-curl http://localhost:8000/api/dashboard/stats
-```
-
----
-
-## 📋 Requirements
+### Prerequisites
 
 - Python 3.8+
-- Docker & Docker Compose (for negotiation chatbot)
-- Ollama (optional, for local LLM models)
+- Node.js 16+ (for frontend)
+- (Optional) Docker & Docker Compose
+- (Optional) Ollama for local LLMs
+- (Optional) Neo4j for graph features
 
-**Install dependencies:**
+### Setup
+
+1. **Clone and install dependencies**:
+   ```bash
+   # Install Python dependencies
+   pip install -r requirements.txt
+
+   # Install frontend dependencies (optional)
+   cd resource-hub-main
+   npm install
+   cd ..
+   ```
+
+2. **Set up environment**:
+   ```bash
+   # Create .env file (optional)
+   # Edit with your API keys if needed
+   ```
+
+3. **Set up dataset** (optional but recommended):
+   ```bash
+   python scripts/create_sample_dond_data.py
+   ```
+
+## 🎮 Usage
+
+### Launch Everything
+
 ```bash
-pip install -r requirements.txt
+./start_demo.sh
 ```
 
----
+This starts:
+- Gradio UI on port 7860
+- Backend API on port 8000 (if configured)
+- Frontend on port 3000 (if configured)
+
+### Individual Components
+
+```bash
+# Gradio Negotiation UI only
+python -m negotiation_chatbot.gradio_ui
+
+# Backend API only
+python -m backend.app.main
+
+# Frontend only
+cd resource-hub-main && npm run dev
+```
+
+### Using the Gradio UI
+
+1. **Start a Conversation**
+   - Enter names for negotiating parties
+   - Select AI model (Ollama or Gemini)
+   - Begin chatting
+
+2. **Get Coach Advice**
+   - System automatically provides advice after each message
+   - Uses RAG to find relevant negotiation tactics
+   - Displays strategic recommendations
+
+3. **Analyze Negotiations**
+   - Open "DoND Conversation Visualizer"
+   - Load sample negotiations (0-9)
+   - View statistics, timelines, and outcomes
+   - Enable coach advice for turn-by-turn guidance
+
+4. **Run Simulations**
+   - Open "Pareto Coach Effectiveness Simulator"
+   - Set parameters and baseline
+   - See how AI coaching improves outcomes
+
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| **[START_HERE.md](START_HERE.md)** | Complete getting started guide |
+| **[RUN_DEMO.md](RUN_DEMO.md)** | Demo launch instructions |
+| **[QUICK_START.md](QUICK_START.md)** | Quick reference |
+| **[DOND_DATASET_SETUP.md](DOND_DATASET_SETUP.md)** | Dataset setup guide |
+| **[docs/NEGOTIATION_CHATBOT.md](docs/NEGOTIATION_CHATBOT.md)** | Chatbot features |
+| **[docs/HOW_TO_RUN.md](docs/HOW_TO_RUN.md)** | Detailed setup |
 
 ## 🔧 Configuration
 
-Edit `.env` to configure:
+### Environment Variables
 
 ```bash
-# Negotiation Chatbot
-DEFAULT_MODEL=qwen3:latest
-OLLAMA_BASE_URL=http://localhost:11434
-NEO4J_URI=bolt://localhost:7687
-NEO4J_USER=neo4j
-NEO4J_PASSWORD=your_password
-
-# API Keys (optional)
+# LLM Providers (optional)
 OPENAI_API_KEY=your_key_here
 GOOGLE_API_KEY=your_key_here
 
-# Features
-ENABLE_NEO4J=true
+# API Endpoints
+API_BASE_URL=http://localhost:8000
+OLLAMA_BASE_URL=http://localhost:11434
+
+# Neo4j (optional)
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USER=neo4j
+NEO4J_PASSWORD=password
+
+# Dataset
+DOND_DATA_DIR=deal_or_no_dialog/exported
 ```
 
----
+### Model Selection
 
-## 📚 Documentation Index
+The system supports multiple LLM providers:
 
-### Negotiation Chatbot
-- [docs/START_HERE.md](docs/START_HERE.md) - **START HERE** for chatbot
-- [docs/NEGOTIATION_CHATBOT.md](docs/NEGOTIATION_CHATBOT.md) - Complete chatbot documentation
-- [docs/CHATBOT_GUIDE.md](docs/CHATBOT_GUIDE.md) - Feature guide
-- [docs/HOW_TO_RUN.md](docs/HOW_TO_RUN.md) - Setup instructions
-- [docs/CLEANUP_SUMMARY.md](docs/CLEANUP_SUMMARY.md) - What was cleaned up
+- **Ollama** (local): qwen3:latest, llama3.2:latest, mistral:latest
+- **Gemini** (cloud): gemini-1.5-flash, gemini-2.0-flash, gemini-2.5-pro
+- **OpenAI** (cloud): gpt-4, gpt-3.5-turbo
 
-### Resource Management Backend
-- [backend/FRONTEND_INTEGRATION_GUIDE.md](backend/FRONTEND_INTEGRATION_GUIDE.md) - **START HERE** for backend
-- [backend/INTEGRATION_SUMMARY.md](backend/INTEGRATION_SUMMARY.md) - Overview
-- [backend/API_QUICK_REFERENCE.md](backend/API_QUICK_REFERENCE.md) - Quick reference
-- [backend/ARCHITECTURE.md](backend/ARCHITECTURE.md) - Architecture details
-- [docs/BACKEND_INTEGRATION_COMPLETE.md](docs/BACKEND_INTEGRATION_COMPLETE.md) - Integration summary
+Models are auto-detected and listed in the UI dropdown.
 
----
+## 🧪 Testing
 
-## 🗂️ Directory Guide
-
-| Directory | Purpose |
-|-----------|---------|
-| `negotiation_chatbot/` | AI negotiation chatbot source code |
-| `backend/` | Resource management REST API |
-| `docs/` | All documentation files |
-| `data/` | CaSiNo corpus data for negotiation training |
-| `chroma_db/` | Vector database for RAG |
-| `.venv/` | Python virtual environment |
-
----
-
-## 🛠️ Common Tasks
-
-### Start Negotiation Chatbot
 ```bash
-# With Docker
-docker-compose up --build
+# Test application setup
+python scripts/test_app.py
 
-# Or locally
-python -m negotiation_chatbot.main
-python -m negotiation_chatbot.gradio_ui
+# Test dataset loading
+python -c "from negotiation_chatbot.dond_data import load_dond; print(f'Loaded {len(load_dond(\"validation\"))} samples')"
+
+# Test API health
+curl http://localhost:8000/health
 ```
 
-### Start Resource Management Backend
-```bash
-cd backend
-./start_backend.sh
+## 🐛 Troubleshooting
+
+### Gradio UI won't start
+- Check if port 7860 is available: `lsof -i :7860`
+- Verify dependencies: `pip install -r requirements.txt`
+- Check logs for errors
+
+### No coach advice
+- Verify API is running: `curl http://localhost:8000/health`
+- Check LLM provider connection (Ollama/Gemini/OpenAI)
+- Review browser console for errors
+
+### Dataset not loading
+- Run setup: `python scripts/create_sample_dond_data.py`
+- Check `deal_or_no_dialog/exported/` directory exists
+- Verify JSONL files are present
+
+### Frontend connection issues
+- Ensure backend is running on port 8000
+- Check CORS settings in backend
+- Verify API_BASE_URL in frontend config
+
+## 📊 Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    User Interface Layer                 │
+├─────────────────────────────────────────────────────────┤
+│  Gradio UI (7860)  │  React Frontend (3000)             │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│                   Application Layer                      │
+├─────────────────────────────────────────────────────────┤
+│  Coach  │  RAG  │  Pareto  │  Preference  │  Autoplay   │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│                     Backend API Layer                    │
+├─────────────────────────────────────────────────────────┤
+│         FastAPI (8000) - REST API Endpoints             │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│                    Integration Layer                     │
+├─────────────────────────────────────────────────────────┤
+│  LLM Client  │  Neo4j  │  ChromaDB  │  Dataset Loader   │
+└─────────────────────────────────────────────────────────┘
+                            ↓
+┌─────────────────────────────────────────────────────────┐
+│                   External Services                      │
+├─────────────────────────────────────────────────────────┤
+│  Ollama  │  Gemini  │  OpenAI  │  Neo4j  │  ChromaDB   │
+└─────────────────────────────────────────────────────────┘
 ```
 
-### Run Tests
-```bash
-python test_app.py
-```
+## 🤝 Contributing
 
-### View API Documentation
-- Negotiation Chatbot: http://localhost:8000/docs
-- Resource Management: http://localhost:8000/docs
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
----
+## 📄 License
+
+This project is provided as-is for educational and research purposes.
+
+## 🙏 Acknowledgments
+
+- **Facebook Research** - Deal-or-No-Deal dataset
+- **CaSiNo Corpus** - Negotiation dialogue corpus
+- **Gradio** - Web UI framework
+- **FastAPI** - Backend framework
+- **Ollama** - Local LLM runtime
+- **Google Gemini** - Cloud LLM API
 
 ## 📞 Support
 
-### Troubleshooting
-
-**Import errors:**
-```bash
-pip install -r requirements.txt
-```
-
-**Port conflicts:**
-```bash
-# Change port
-PORT=8001 python -m negotiation_chatbot.main
-```
-
-**Neo4j connection issues:**
-```bash
-# Start Neo4j in Docker
-docker run -d --name neo4j -p 7474:7474 -p 7687:7687 \
-  -e NEO4J_AUTH=neo4j/password neo4j:5
-
-# Or disable in .env
-ENABLE_NEO4J=false
-```
-
-### Getting Help
-
-1. Check the documentation in `docs/`
-2. Review the specific project's README
-3. Check the logs for error messages
-4. Open an issue with:
-   - Description of the problem
-   - Steps to reproduce
-   - Error messages/logs
-   - System information
+For issues and questions:
+1. Check documentation in `docs/`
+2. Review troubleshooting section above
+3. Check logs for error messages
+4. Open an issue with details
 
 ---
 
-## 📝 Notes
-
-- **Negotiation Chatbot** runs on port 8000 (API) and 7860 (UI)
-- **Resource Management Backend** also runs on port 8000
-- **Cannot run both simultaneously** on default ports
-- Use different ports if you need to run both:
-  ```bash
-  # Backend on 8001
-  cd backend
-  uvicorn app.main:app --port 8001
-  ```
-
----
-
-## 🎉 Get Started!
-
-1. **For Negotiation Chatbot:** Read [docs/START_HERE.md](docs/START_HERE.md)
-2. **For Resource Management:** Read [backend/FRONTEND_INTEGRATION_GUIDE.md](backend/FRONTEND_INTEGRATION_GUIDE.md)
-3. Run `python test_app.py` to verify setup
-4. Start your preferred project!
-
----
-
-**Last Updated:** 2025-12-29
+**Last Updated**: December 29, 2025
+**Status**: ✅ Fully functional and tested
+**Version**: 2.0

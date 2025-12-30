@@ -1,4 +1,58 @@
+# Environment variables
 .env
 negotiation_chatbot/.env
+backend/.env
+resource-hub-main/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
+
+# Databases
 chroma_db/
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache
+cache/
+*.cache
+.pytest_cache/
+
+# Temporary files
+*.log
+*.tmp
+data/dond_viz_*.json
+data/conv_*.json
+
+# Node modules (frontend)
+resource-hub-main/node_modules/
+resource-hub-main/dist/
+resource-hub-main/build/
+
+# Model checkpoints
+checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Claude Code
+.claude/

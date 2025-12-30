@@ -143,7 +143,7 @@ async def chat(message: ChatMessage):
         
         # Step 4: Log RAG usage in Neo4j (optional)
         try:
-            from app.graph import upsert_rag_usage
+            from negotiation_chatbot.graph import upsert_rag_usage
             # Prefer explicit provenance flag from coach
             rag_src = advice_result.get("rag_source", "none")
             rag_used = rag_src in ("casino", "generic")
@@ -236,7 +236,7 @@ async def openai_compat(req: ChatCompletionReq):
 async def get_conversation_graph(conv_id: str):
     """Get conversation graph data for visualization"""
     try:
-        from app.graph import get_conversation_graph_data
+        from negotiation_chatbot.graph import get_conversation_graph_data
         graph_data = get_conversation_graph_data(conv_id)
         return graph_data
     except Exception as e:
@@ -247,7 +247,7 @@ async def get_conversation_graph(conv_id: str):
 async def get_conversation_stats(conv_id: str):
     """Get conversation statistics for visualization"""
     try:
-        from app.graph import get_conversation_stats
+        from negotiation_chatbot.graph import get_conversation_stats
         stats = get_conversation_stats(conv_id)
         return stats
     except Exception as e:
@@ -302,7 +302,7 @@ class DealOutcome(BaseModel):
 async def label_text_endpoint(request: LabelRequest):
     """Label text with move and power dynamics"""
     try:
-        from app.ingest import label_text
+        from negotiation_chatbot.ingest import label_text
         labels = label_text(request.text)
         return labels
     except Exception as e:

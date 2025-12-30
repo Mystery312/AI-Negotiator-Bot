@@ -21,11 +21,11 @@ if __name__ == "__main__":
 
 # Try package imports first, then fall back to local imports
 try:
-    from app.graph import fetch_last_n
-    from app.rag import retrieve_rag_context
-    from app.casino_rag import get_casino_context
-    from app.pareto import best_offer, utility  # NEW – Pareto helper
-    from app.preference import load_pref_model, estimate_preferences  # NEW
+    from negotiation_chatbot.graph import fetch_last_n
+    from negotiation_chatbot.rag import retrieve_rag_context
+    from negotiation_chatbot.casino_rag import get_casino_context
+    from negotiation_chatbot.pareto import best_offer, utility  # NEW – Pareto helper
+    from negotiation_chatbot.preference import load_pref_model, estimate_preferences  # NEW
 except ImportError:
     # Fall back to local imports when running as script
     from graph import fetch_last_n
@@ -1163,7 +1163,7 @@ def get_structured_advice(conv_id: str, speaker: str, model: str = "qwen3:latest
 
 # Initialize LLM client (robust import for package vs script)
 try:
-    from app.llm_client import create_llm_client, get_provider_from_model
+    from negotiation_chatbot.llm_client import create_llm_client, get_provider_from_model
 except Exception:  # ModuleNotFoundError in some run modes
     from llm_client import create_llm_client, get_provider_from_model
 
@@ -2171,7 +2171,7 @@ def _cold_start_advice(conv_id: str, speaker: str, model: str):
     """Handle conversations with fewer than one turn (cold start)."""
     hint = "Start with information sharing to build trust."
     # Import the correct function
-    from app.rag import retrieve_rag_context
+    from negotiation_chatbot.rag import retrieve_rag_context
     rag_ctx = retrieve_rag_context(hint) or "N/A"
     reply  = _llm_generate_reply(hint, "No conversation history available.", rag_ctx, "", repeated=False, model=model)
     store_advice(conv_id, speaker, hint)
@@ -2187,7 +2187,7 @@ def _retrieve_rag_context(hint: str, turns) -> tuple[str, str]:
         return ctx, "casino"
     summary = summarize_turns_for_llm(turns)
     # Import the correct function to avoid recursive call
-    from app.rag import retrieve_rag_context as rag_retrieve
+    from negotiation_chatbot.rag import retrieve_rag_context as rag_retrieve
     ctx = rag_retrieve(f"{hint}\n\nConversation so far: {summary}") or "N/A"
     if ctx and ctx != "N/A":
         return ctx, "generic"

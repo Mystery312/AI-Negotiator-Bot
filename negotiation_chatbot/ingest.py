@@ -8,7 +8,7 @@ from openai import OpenAI
 import pdfplumber
 import os
 from dotenv import load_dotenv
-from app.graph import upsert_turn
+from negotiation_chatbot.graph import upsert_turn
 
 # Load environment variables
 load_dotenv()

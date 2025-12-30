@@ -13,10 +13,10 @@ if __name__ == "__main__":
     sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import from app package
-from app.autoplay import generate_bot_proposal, format_proposal_message
-from app.coach import get_advice
-from app.dond_data import load_dond
-from app.pareto import utility
+from negotiation_chatbot.autoplay import generate_bot_proposal, format_proposal_message
+from negotiation_chatbot.coach import get_advice
+from negotiation_chatbot.dond_data import load_dond
+from negotiation_chatbot.pareto import utility
 
 def create_message(role: str, speaker: str, text: str) -> Dict:
     """Create a message dictionary with timestamp."""

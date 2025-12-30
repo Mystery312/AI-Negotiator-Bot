@@ -14,9 +14,9 @@ if __name__ == "__main__":
     sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Now we can import from app package
-from app.automate import run_automated_conversation, run_dond_sample, evaluate_conversation
-from app.dond_data import load_dond
-from app.preference import estimate_preferences
+from negotiation_chatbot.automate import run_automated_conversation, run_dond_sample, evaluate_conversation
+from negotiation_chatbot.dond_data import load_dond
+from negotiation_chatbot.preference import estimate_preferences
 
 def run_experiment(
     n_samples: int = 10,
