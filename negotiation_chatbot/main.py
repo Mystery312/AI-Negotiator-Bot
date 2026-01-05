@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 # Import local modules
 from .ingest import label_text
 from .graph import upsert_turn, create_deal_outcome, mark_turn_as_accepted
-from .coach import get_advice
+from .coach import get_advice, get_advice_async  # Phase 3: Added async version
 from .rag import retrieve_rag_context
 from .casino_rag import preload_casino_rag, initialize_casino_rag
 
@@ -85,6 +85,8 @@ class ChatMessage(BaseModel):
     text: str
     model: str | None = "qwen3:latest"  # Add optional model parameter
     provider: str | None = "ollama"  # Add optional provider parameter
+    item_names: dict[str, str] | None = None  # Custom item names {"item0": "Engineers", ...}
+    item_counts: dict[str, int] | None = None  # Custom item counts {"item0": 3, ...}
 
 @app.get("/health")
 async def health_check():
@@ -146,7 +148,19 @@ async def chat(message: ChatMessage):
                 provider = "ollama"
                 model_name = message.model
         
-        advice_result = get_advice(message.conv_id, message.speaker, model_name)
+        # Extract item config or use defaults
+        item_names = message.item_names or {}
+        item_counts = message.item_counts or {"item0": 3, "item1": 2, "item2": 1}
+
+        # Pass custom item names and counts to coach (ASYNC - Phase 3 optimization)
+        advice_result = await get_advice_async(
+            message.conv_id,
+            message.speaker,
+            model_name,
+            provider=provider,
+            item_names=item_names,
+            item_counts=item_counts
+        )
         logger.info(f"Advice received: {advice_result}")
         
         # Step 4: Log RAG usage in Neo4j (optional)
@@ -343,6 +357,6 @@ async def mark_conversation_accepted(conv_id: str, turn_id: str | None = None):
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))
+    port = int(os.getenv("PORT", 8001))  # Changed default to 8001
     logger.info(f"Starting server on port {port}")
     uvicorn.run(app, host="0.0.0.0", port=port)

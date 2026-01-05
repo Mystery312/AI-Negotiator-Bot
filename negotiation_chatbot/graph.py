@@ -2,9 +2,11 @@ import os
 import uuid
 import logging
 import re
-from typing import Dict, List, Any
+import time
+from typing import Dict, List, Any, Callable
 from datetime import datetime
 from neo4j import GraphDatabase
+from neo4j.exceptions import ServiceUnavailable, SessionExpired
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -24,13 +26,57 @@ NEO4J_PASS = os.getenv("NEO4J_PASSWORD", "6xlBSIDu8Nc8gjXrpt3kNuwM7AZHGI3WJrfpN2
 driver = None
 if ENABLE_NEO4J:
     try:
-        driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS), max_connection_lifetime=5, connection_acquisition_timeout=5)
-        logger.info("Connected to Neo4j database")
+        driver = GraphDatabase.driver(
+            NEO4J_URI,
+            auth=(NEO4J_USER, NEO4J_PASS),
+            max_connection_lifetime=3600,  # 1 hour (was 5 seconds) - reduces reconnection overhead
+            connection_acquisition_timeout=30,  # 30 seconds (was 5) - allows for temporary spikes
+            max_connection_pool_size=50,  # Connection pool for concurrent requests
+            connection_timeout=10  # Socket connection timeout
+        )
+        logger.info("Connected to Neo4j database with optimized connection pool settings")
     except Exception as e:
         logger.warning(f"Neo4j connection failed (continuing without graph features): {e}")
         driver = None
 else:
     logger.info("Neo4j disabled (set ENABLE_NEO4J=true to enable graph features)")
+
+
+def execute_with_retry(session_func: Callable, max_retries: int = 3, initial_delay: float = 0.1):
+    """
+    Execute Neo4j operation with exponential backoff retry.
+
+    Args:
+        session_func: Callable that performs the database operation
+        max_retries: Maximum number of retry attempts (default: 3)
+        initial_delay: Initial delay between retries in seconds (default: 0.1)
+
+    Returns:
+        Result of session_func execution
+
+    Raises:
+        Exception: If all retries fail, raises the last exception
+    """
+    for attempt in range(max_retries):
+        try:
+            return session_func()
+        except (ServiceUnavailable, SessionExpired) as e:
+            if attempt == max_retries - 1:
+                # Last attempt failed, re-raise the exception
+                logger.error(f"Neo4j operation failed after {max_retries} attempts: {e}")
+                raise
+
+            # Calculate exponential backoff delay
+            delay = initial_delay * (2 ** attempt)
+            logger.warning(
+                f"Neo4j operation failed (attempt {attempt + 1}/{max_retries}), "
+                f"retrying in {delay:.2f}s: {e}"
+            )
+            time.sleep(delay)
+
+    # This should never be reached, but just in case
+    raise RuntimeError("Unexpected error in execute_with_retry")
+
 
 def upsert_turn(conv_id: str, speaker: str, text: str, move: str, pd: str):
     """
@@ -119,15 +165,18 @@ def upsert_turn(conv_id: str, speaker: str, text: str, move: str, pd: str):
             raise
     
     try:
-        with driver.session() as session:
-            session.execute_write(create_turn, conv_id, speaker, text, move, pd)
+        def upsert_operation():
+            with driver.session() as session:
+                session.execute_write(create_turn, conv_id, speaker, text, move, pd)
+
+        execute_with_retry(upsert_operation)
         logger.info(f"Upserted turn for conversation {conv_id}, speaker {speaker}")
-        
+
         # Extract and store offers from the message
         # Get the current turn number by counting turns in this conversation
         turn_number = get_turn_number(conv_id)
         process_message_for_offers(conv_id, speaker, text, turn_number)
-        
+
     except Exception as e:
         logger.error(f"Error upserting turn: {e}")
         raise
@@ -172,8 +221,11 @@ def fetch_last_n(conv_id: str, n: int = 5) -> List[Dict[str, Any]]:
         return list(reversed(turns))
     
     try:
-        with driver.session() as session:
-            turns = session.execute_read(get_last_turns, conv_id, n)
+        def fetch_operation():
+            with driver.session() as session:
+                return session.execute_read(get_last_turns, conv_id, n)
+
+        turns = execute_with_retry(fetch_operation)
         logger.info(f"Fetched {len(turns)} turns for conversation {conv_id}")
         return turns
     except Exception as e:
