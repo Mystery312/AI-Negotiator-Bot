@@ -32,31 +32,51 @@ echo "=========================================="
 echo "  Starting Backend API..."
 echo "=========================================="
 echo ""
-echo "Starting FastAPI server on http://localhost:8000"
+
+# Check if API is already running
+if lsof -Pi :8001 -sTCP:LISTEN -t >/dev/null 2>&1 ; then
+    echo "⚠ API already running on port 8001. Stopping it first..."
+    lsof -ti:8001 | xargs kill -9 2>/dev/null
+    sleep 2
+fi
+
+echo "Starting FastAPI server on http://localhost:8001"
 echo "Logs: logs/api.log"
 echo ""
 
 # Start backend in background
+# PORT defaults to 8001 in main.py now
 nohup python -m negotiation_chatbot.main > logs/api.log 2>&1 &
 API_PID=$!
 echo "Backend PID: $API_PID"
 
 # Wait for API to start (with polling instead of fixed sleep)
-echo "Waiting for API to start..."
-for i in {1..20}; do
+echo "Waiting for API to start (this may take 30-50 seconds on first run)..."
+echo "Loading: Neo4j → PyTorch → PreferenceEstimator model..."
+for i in {1..100}; do
     sleep 0.5
-    curl -s http://localhost:8000/health > /dev/null 2>&1
+    curl -s http://localhost:8001/health > /dev/null 2>&1
     if [ $? -eq 0 ]; then
-        echo "API ready after $((i/2)) seconds"
+        echo "✓ API ready after $((i/2)) seconds"
         break
+    fi
+    # Progress indicator every 10 seconds
+    if [ $((i % 20)) -eq 0 ]; then
+        echo "  ... still waiting ($((i/2))s elapsed)"
     fi
 done
 
-# Final check
-curl -s http://localhost:8000/health > /dev/null 2>&1
+# Final check with grace period
+curl -s http://localhost:8001/health > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-    echo "❌ Failed to start API. Check logs/api.log"
-    exit 1
+    echo "⚠ API not ready yet, waiting additional 10 seconds..."
+    sleep 10
+    curl -s http://localhost:8001/health > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "❌ Failed to start API after 60 seconds. Check logs/api.log"
+        exit 1
+    fi
+    echo "✓ API started (required extra time)"
 fi
 
 echo "✓ API started successfully"
@@ -66,6 +86,14 @@ echo "=========================================="
 echo "  Starting Gradio UI..."
 echo "=========================================="
 echo ""
+
+# Check if Gradio is already running
+if lsof -Pi :7860 -sTCP:LISTEN -t >/dev/null 2>&1 ; then
+    echo "⚠ Gradio already running on port 7860. Stopping it first..."
+    lsof -ti:7860 | xargs kill -9 2>/dev/null
+    sleep 2
+fi
+
 echo "Starting Gradio UI on http://localhost:7860"
 echo "Logs: logs/gradio.log"
 echo ""
@@ -93,8 +121,8 @@ echo "=========================================="
 echo ""
 echo "Access Points:"
 echo "  • Gradio UI:  http://localhost:7860"
-echo "  • API:        http://localhost:8000"
-echo "  • API Docs:   http://localhost:8000/docs"
+echo "  • API:        http://localhost:8001"
+echo "  • API Docs:   http://localhost:8001/docs"
 echo ""
 echo "Process IDs:"
 echo "  • Backend API: $API_PID"

@@ -76,28 +76,48 @@ def generate_bot_proposal(
         print(f"Error generating bot proposal: {e}")
         return None
 
-def format_proposal_message(proposal: Dict[str, int], counts: Dict[str, int]) -> str:
-    """Format a proposal as a readable message."""
+def format_proposal_message(
+    proposal: Dict[str, int],
+    counts: Dict[str, int],
+    item_names: Optional[Dict[str, str]] = None
+) -> str:
+    """Format a proposal as a readable message.
+
+    Args:
+        proposal: Proposed allocation {item_id: quantity}
+        counts: Total item counts {item_id: total_quantity}
+        item_names: Optional custom item names {item_id: display_name}
+
+    Returns:
+        Formatted proposal message
+    """
     if not proposal:
         return "🤖 Bot proposal: No proposal available"
-    
+
+    # Use custom names if provided
+    if item_names is None:
+        item_names = {}
+
     # Calculate what each party gets
     you_items = []
     them_items = []
-    
+
     for item, total_qty in counts.items():
         you_qty = proposal.get(item, 0)
         them_qty = total_qty - you_qty
-        
+
+        # Get display name (use custom name or fallback to item ID)
+        display_name = item_names.get(item, item)
+
         if you_qty > 0:
-            you_items.append(f"{item}: {you_qty}")
+            you_items.append(f"{display_name}: {you_qty}")
         if them_qty > 0:
-            them_items.append(f"{item}: {them_qty}")
-    
+            them_items.append(f"{display_name}: {them_qty}")
+
     message = "🤖 Bot proposal:\n"
     if you_items:
         message += f"• You get: {', '.join(you_items)}\n"
     if them_items:
         message += f"• They get: {', '.join(them_items)}"
-    
+
     return message

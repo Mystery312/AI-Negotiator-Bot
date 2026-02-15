@@ -8,8 +8,9 @@ echo "=========================================="
 echo ""
 
 # Find and kill processes
-echo "Stopping backend API (port 8000)..."
+echo "Stopping backend API (ports 8000 & 8001)..."
 lsof -ti:8000 | xargs kill -9 2>/dev/null
+lsof -ti:8001 | xargs kill -9 2>/dev/null
 if [ $? -eq 0 ]; then
     echo "✓ Backend stopped"
 else

@@ -11,14 +11,11 @@ from typing import Dict, Any, List, Optional
 if __name__ == "__main__":
     sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Try package imports first, then fall back to local imports
-try:
-    from openai import OpenAI
-    import google.generativeai as genai
-except ImportError:
-    # Fall back to local imports when running as script
-    from openai import OpenAI
-    import google.generativeai as genai
+# Import OpenAI (used by Ollama wrapper)
+from openai import OpenAI
+
+# Google Generative AI will be imported only when GeminiProvider is instantiated (lazy loading)
+# This prevents blocking on import when not using Gemini
 
 logger = logging.getLogger(__name__)
 
@@ -79,18 +76,23 @@ class OllamaProvider(LLMProvider):
 
 class GeminiProvider(LLMProvider):
     """Google Gemini provider."""
-    
+
     def __init__(self, model_name: str = "gemini-1.5-flash"):
+        # Import google.generativeai only when actually using Gemini (lazy loading)
+        import google.generativeai as genai
+
         super().__init__(model_name)
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:
             raise ValueError("GOOGLE_API_KEY environment variable is required for Gemini")
-        
+
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel(model_name)
     
     def generate_response(self, messages: List[Dict[str, str]], **kwargs) -> str:
         """Generate response using Gemini."""
+        import google.generativeai as genai  # Lazy import
+
         try:
             # Use model from kwargs if provided, otherwise use self.model_name
             model_name = kwargs.pop('model', self.model_name)

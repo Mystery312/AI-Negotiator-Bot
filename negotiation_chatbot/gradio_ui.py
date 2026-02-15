@@ -29,9 +29,10 @@ def resolve_api_base_url() -> str:
     if env_base:
         candidates.append(env_base)
     candidates.extend([
-        "http://api:8000",            # docker compose service name
-        "http://localhost:8000",      # local dev default
-        "http://127.0.0.1:8000",      # explicit loopback
+        "http://api:8001",            # docker compose service name
+        "http://localhost:8001",      # local dev default (new port)
+        "http://127.0.0.1:8001",      # explicit loopback (new port)
+        "http://localhost:8000",      # fallback to old port
     ])
     for base in candidates:
         try:
@@ -41,8 +42,8 @@ def resolve_api_base_url() -> str:
                 return base
         except Exception:
             continue
-    logger.warning("Could not reach any API candidate; defaulting to http://localhost:8000")
-    return "http://localhost:8000"
+    logger.warning("Could not reach any API candidate; defaulting to http://localhost:8001")
+    return "http://localhost:8001"
 
 API_BASE_URL = resolve_api_base_url()
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
@@ -581,7 +582,7 @@ def label_turn_async(text: str) -> Dict:
         logger.error(f"Failed to label turn: {e}")
         return {"move": None, "pd": None}
 
-def get_coach_advice(conv_id: str, speaker: str, model: str, text: Optional[str] = None) -> Tuple[str, str, str]:
+def get_coach_advice(conv_id: str, speaker: str, model: str, text: Optional[str] = None, item_names: Optional[Dict[str, str]] = None, item_counts: Optional[Dict[str, int]] = None) -> Tuple[str, str, str]:
     """Get advice from coach API. If text is provided, the API will label and upsert this turn before advising."""
     try:
         # Parse model to extract provider and model name
@@ -591,13 +592,15 @@ def get_coach_advice(conv_id: str, speaker: str, model: str, text: Optional[str]
             # Default to ollama if no provider specified
             provider = "ollama"
             model_name = model
-        
+
         payload = {
             "conv_id": conv_id,
             "speaker": speaker,
             "text": text or "",  # If provided, upsert this message before advising
             "model": model_name,
-            "provider": provider
+            "provider": provider,
+            "item_names": item_names or {},  # Pass custom item names
+            "item_counts": item_counts or {}  # Pass custom item counts
         }
         response = requests.post(
             f"{API_BASE_URL}/chat",
@@ -698,33 +701,66 @@ def get_conversation_summary(conv_id: str) -> str:
         return f"Error: {str(e)}"
 
 # Item analysis helper
-def analyze_items_in_message(text: str, all_items: List[str]) -> List[str]:
-    """Find item mentions in message text."""
+def analyze_items_in_message(
+    text: str,
+    all_items: List[str],
+    item_names: Optional[Dict[str, str]] = None
+) -> List[str]:
+    """Find item mentions in message text using custom item names.
+
+    Args:
+        text: Message text to analyze
+        all_items: List of item IDs to search for (e.g., ["item0", "item1", "item2"])
+        item_names: Optional mapping of item IDs to display names
+                   e.g., {"item0": "Senior Engineers", "item1": "Budget ($K)"}
+
+    Returns:
+        List of item IDs found in the text
+    """
     found_items = []
     text_lower = text.lower()
-    
-    # Map common item names to their item IDs
-    item_mapping = {
-        "book": "item0",
-        "books": "item0", 
-        "hat": "item1",
-        "hats": "item1",
-        "ball": "item2", 
-        "balls": "item2",
-        "basketball": "item2",
-        "basketballs": "item2"
-    }
-    
+
+    # Build reverse mapping: name -> item_id
+    item_mapping = {}
+
+    if item_names:
+        # Use custom item names
+        for item_id, item_name in item_names.items():
+            if item_id in all_items:
+                base_name = item_name.lower().strip()
+                item_mapping[base_name] = item_id
+
+                # Add simple plural form (add 's' if doesn't end with 's')
+                if not base_name.endswith('s'):
+                    item_mapping[base_name + 's'] = item_id
+
+                # Add first word for multi-word names (e.g., "Senior" from "Senior Engineers")
+                words = base_name.split()
+                if len(words) > 1 and len(words[0]) > 3:
+                    item_mapping[words[0]] = item_id
+    else:
+        # Fallback to default DOND names if no custom names provided
+        item_mapping = {
+            "book": "item0",
+            "books": "item0",
+            "hat": "item1",
+            "hats": "item1",
+            "ball": "item2",
+            "balls": "item2",
+            "basketball": "item2",
+            "basketballs": "item2"
+        }
+
     # Check for mapped item names
     for item_name, item_id in item_mapping.items():
         if item_name in text_lower:
             found_items.append(item_id)
-    
+
     # Also check for the original item IDs (item0, item1, etc.)
     for item in all_items:
         if item in text_lower:
             found_items.append(item)
-    
+
     return list(set(found_items))  # Remove duplicates
 
 # Simple sentiment analysis helper
@@ -906,8 +942,28 @@ def detect_first_nash_like_turn(turns: List[str]) -> int | None:
             return i
     return None
 
-def load_dond_sample_viz(idx, use_llm_detection=True, filter_no_deal=False, enable_coach=False, model: str = "qwen3:latest"):
-    """Load and analyze a DoND sample for visualization with optional coach advice."""
+def load_dond_sample_viz(
+    idx,
+    use_llm_detection=True,
+    filter_no_deal=False,
+    enable_coach=False,
+    model: str = "qwen3:latest",
+    item0_name: str = "book",
+    item1_name: str = "hat",
+    item2_name: str = "ball"
+):
+    """Load and analyze a DoND sample for visualization with optional coach advice.
+
+    Args:
+        idx: Sample index to load
+        use_llm_detection: Use LLM for deal detection
+        filter_no_deal: Show only no-deal conversations
+        enable_coach: Enable inline coach advice
+        model: LLM model to use
+        item0_name: Custom name for item 0 (default: "book")
+        item1_name: Custom name for item 1 (default: "hat")
+        item2_name: Custom name for item 2 (default: "ball")
+    """
     try:
         if not VAL_SAMPLES:
             error_msg = (
@@ -971,10 +1027,25 @@ def load_dond_sample_viz(idx, use_llm_detection=True, filter_no_deal=False, enab
                 actual_idx, sample = no_deal_samples[0]
         else:
             sample = VAL_SAMPLES[int(idx)]
-        
-        # Item counts analysis
+
+        # Build item names dictionary
+        item_names = {
+            "item0": item0_name,
+            "item1": item1_name,
+            "item2": item2_name
+        }
+
+        # Build item counts dictionary
+        item_counts = {
+            f"item{i}": qty for i, qty in enumerate(sample.counts)
+        }
+
+        # Item counts analysis with custom names
         item_counts_md = "#### Item Counts\n"
-        item_counts_md += "\n".join([f"- **Item {k}**: {q}" for k, q in enumerate(sample.counts)])
+        item_counts_md += "\n".join([
+            f"- **{item_names.get(f'item{k}', f'Item {k}')}**: {q}"
+            for k, q in enumerate(sample.counts)
+        ])
         
         # Deal outcome analysis - use LLM if enabled, otherwise use keyword detection
         if use_llm_detection:
@@ -1007,7 +1078,7 @@ def load_dond_sample_viz(idx, use_llm_detection=True, filter_no_deal=False, enab
         # Timeline data
         timeline_data = []
         all_items = [f"item{i}" for i in range(len(sample.counts))]
-        
+
         # Create a temp conversation ID and process each turn
         temp_conv_id = f"dond_viz_{int(time.time())}"
         # Save local history for export/debug (not used by API)
@@ -1016,12 +1087,13 @@ def load_dond_sample_viz(idx, use_llm_detection=True, filter_no_deal=False, enab
         for i, turn in enumerate(sample.turns):
             if not turn.strip():
                 continue
-            
+
             # Determine speaker
             speaker = "You" if i % 2 == 0 else "Them"
-            
-            # Analyze items mentioned
-            items_mentioned = analyze_items_in_message(turn.lower(), all_items)
+
+            # Analyze items mentioned - convert item IDs to display names
+            item_ids_mentioned = analyze_items_in_message(turn.lower(), all_items, item_names)
+            items_mentioned = [item_names.get(item_id, item_id) for item_id in item_ids_mentioned]
             
             # Update speaker statistics
             speakers[speaker]["turns"] += 1
@@ -1054,7 +1126,14 @@ def load_dond_sample_viz(idx, use_llm_detection=True, filter_no_deal=False, enab
             # If enabled, upsert this turn via API and append coach advice (for both parties)
             if enable_coach:
                 try:
-                    advice_text, rag_src, rag_ctx = get_coach_advice(temp_conv_id, speaker, model, text=turn.strip())
+                    advice_text, rag_src, rag_ctx = get_coach_advice(
+                        temp_conv_id,
+                        speaker,
+                        model,
+                        text=turn.strip(),
+                        item_names=item_names,
+                        item_counts=item_counts
+                    )
                     if advice_text and not advice_text.startswith(("Error", "Connection error", "Waiting for both parties")):
                         timeline_data.append([
                             i + 1,              # same turn index to appear right after
@@ -1084,19 +1163,21 @@ def load_dond_sample_viz(idx, use_llm_detection=True, filter_no_deal=False, enab
         fig_speaker.add_bar(x=list(speakers.keys()), y=[speakers['You']['turns'], speakers['Them']['turns']], name="Turns")
         fig_speaker.update_layout(title="Speaker Activity", xaxis_title="Speaker", yaxis_title="Turns")
         
-        # Create content analysis plot
+        # Create content analysis plot with custom item names
         item_mentions = {item: [] for item in all_items}
         for i, turn in enumerate(sample.turns):
-            items = analyze_items_in_message(turn.lower(), all_items)
+            items = analyze_items_in_message(turn.lower(), all_items, item_names)
             for item in all_items:
                 item_mentions[item].append(1 if item in items else 0)
-        
+
         fig_content = go.Figure()
         for item, mentions in item_mentions.items():
+            # Use custom name for display
+            display_name = item_names.get(item, item)
             fig_content.add_trace(go.Scatter(
                 x=list(range(1, len(mentions) + 1)),
                 y=mentions,
-                name=item,
+                name=display_name,
                 mode='lines+markers'
             ))
         fig_content.update_layout(
@@ -1147,7 +1228,57 @@ def create_unified_interface():
     with gr.Blocks(title="AI Chat Negotiator") as demo:
         gr.Markdown("# AI Chat Negotiator")
         gr.Markdown("Multi-party negotiation with AI assistance and real-time analysis.")
-        
+
+        # Item Configuration Section
+        with gr.Accordion("⚙️ Item Configuration", open=True):
+            gr.Markdown("### Configure Negotiation Items")
+            gr.Markdown("Enter the names and quantities of items to negotiate (e.g., 'Senior Engineers', 'Budget ($K)', 'Timeline (weeks)')")
+
+            with gr.Row():
+                item0_name = gr.Textbox(
+                    label="Item 1 Name",
+                    placeholder="e.g., Senior Engineers",
+                    value="",
+                    scale=2
+                )
+                item0_count = gr.Number(
+                    label="Item 1 Quantity",
+                    value=3,
+                    precision=0,
+                    scale=1
+                )
+
+            with gr.Row():
+                item1_name = gr.Textbox(
+                    label="Item 2 Name",
+                    placeholder="e.g., Budget ($K)",
+                    value="",
+                    scale=2
+                )
+                item1_count = gr.Number(
+                    label="Item 2 Quantity",
+                    value=2,
+                    precision=0,
+                    scale=1
+                )
+
+            with gr.Row():
+                item2_name = gr.Textbox(
+                    label="Item 3 Name",
+                    placeholder="e.g., Timeline (weeks)",
+                    value="",
+                    scale=2
+                )
+                item2_count = gr.Number(
+                    label="Item 3 Quantity",
+                    value=1,
+                    precision=0,
+                    scale=1
+                )
+
+            configure_btn = gr.Button("✓ Set Item Configuration", variant="primary", size="lg")
+            config_status = gr.Markdown("")
+
         # Top row: Conversation ID and Model selection
         with gr.Row():
             conversation_id = gr.Textbox(
@@ -1245,7 +1376,30 @@ def create_unified_interface():
                     value=False,
                     interactive=bool(VAL_SAMPLES)
                 )
-            
+
+            # Item name overrides
+            with gr.Row():
+                gr.Markdown("**Custom Item Names** (override DOND defaults: book, hat, ball)")
+            with gr.Row():
+                dond_item0_name = gr.Textbox(
+                    label="Item 0 Name",
+                    value="book",
+                    scale=1,
+                    interactive=bool(VAL_SAMPLES)
+                )
+                dond_item1_name = gr.Textbox(
+                    label="Item 1 Name",
+                    value="hat",
+                    scale=1,
+                    interactive=bool(VAL_SAMPLES)
+                )
+                dond_item2_name = gr.Textbox(
+                    label="Item 2 Name",
+                    value="ball",
+                    scale=1,
+                    interactive=bool(VAL_SAMPLES)
+                )
+
             # Conversation display area
             with gr.Row():
                 # Left side: Conversation details
@@ -1348,11 +1502,52 @@ def create_unified_interface():
         
         # Hidden state for history
         history_state = gr.State([])
-        
-        def on_send(role, text, model, conv_id, history, speaker_a, speaker_b):
+
+        # State for item configuration
+        item_names_state = gr.State({})  # Will store {"item0": "Senior Engineers", ...}
+        item_counts_state = gr.State({})  # Will store {"item0": 3, ...}
+
+        def configure_items(name0, name1, name2, count0, count1, count2):
+            """Store custom item names and counts in session state"""
+            if not name0 or not name1 or not name2:
+                return {}, {}, "❌ **Error:** Please provide names for all 3 items before starting negotiation"
+
+            # Validate counts are positive
+            if count0 <= 0 or count1 <= 0 or count2 <= 0:
+                return {}, {}, "❌ **Error:** All item quantities must be greater than 0"
+
+            item_names = {
+                "item0": name0.strip(),
+                "item1": name1.strip(),
+                "item2": name2.strip()
+            }
+
+            item_counts = {
+                "item0": int(count0),
+                "item1": int(count1),
+                "item2": int(count2)
+            }
+
+            status = f"✅ **Configured Successfully:**\n- **{name0}** (quantity: {int(count0)})\n- **{name1}** (quantity: {int(count1)})\n- **{name2}** (quantity: {int(count2)})\n\nYou can now start negotiating!"
+            return item_names, item_counts, status
+
+        def on_send(role, text, model, conv_id, history, speaker_a, speaker_b, item_names, item_counts):
             """Handle sending messages"""
             if not text.strip():
-                return history, render_chat(history)
+                return history, render_chat(history), role
+
+            # Validate items are configured
+            if not item_names or not item_counts:
+                error_msg = {
+                    "role": "System",
+                    "speaker": "System",
+                    "text": "❌ Please configure items first! Click '⚙️ Item Configuration' above to set item names and quantities.",
+                    "move": None,
+                    "pd": None,
+                    "ts": datetime.now().isoformat()
+                }
+                history_with_error = history + [error_msg]
+                return history_with_error, render_chat(history_with_error), role
             
             # Determine role and speaker
             if role == "You":
@@ -1401,7 +1596,7 @@ def create_unified_interface():
             # Get advice after messages from either party (A or B)
             try:
                 # Pass role ("A" or "B") instead of speaker name to coach
-                coach_advice, rag_source, rag_context = get_coach_advice(conv_id, msg_role, model, text=text)
+                coach_advice, rag_source, rag_context = get_coach_advice(conv_id, msg_role, model, text=text, item_names=item_names, item_counts=item_counts)
                 if coach_advice and not coach_advice.startswith(("Error", "Connection error")):
                     coach_msg = {
                         "role": "Coach",
@@ -1427,8 +1622,8 @@ def create_unified_interface():
                         if msg["role"] in ["A", "B"]:
                             turns.append(msg["text"])
                     
-                    # Default item counts (can be made configurable)
-                    counts = {"item0": 3, "item1": 2, "item2": 1}
+                    # Use configured item counts
+                    counts = item_counts
                     
                     # Generate bot proposal
                     proposal = generate_bot_proposal(turns, counts)
@@ -1514,13 +1709,13 @@ def create_unified_interface():
         # Event handlers
         send_btn.click(
             fn=on_send,
-            inputs=[role_radio, message_input, model_dropdown, conversation_id, history_state, speaker_a, speaker_b],
+            inputs=[role_radio, message_input, model_dropdown, conversation_id, history_state, speaker_a, speaker_b, item_names_state, item_counts_state],
             outputs=[history_state, chatbot, role_radio]
         )
-        
+
         message_input.submit(
             fn=on_send,
-            inputs=[role_radio, message_input, model_dropdown, conversation_id, history_state, speaker_a, speaker_b],
+            inputs=[role_radio, message_input, model_dropdown, conversation_id, history_state, speaker_a, speaker_b, item_names_state, item_counts_state],
             outputs=[history_state, chatbot, role_radio]
         )
         
@@ -1544,13 +1739,29 @@ def create_unified_interface():
             inputs=conversation_id,
             outputs=[history_state, chatbot]
         )
-        
+
+        # Configure items button
+        configure_btn.click(
+            fn=configure_items,
+            inputs=[item0_name, item1_name, item2_name, item0_count, item1_count, item2_count],
+            outputs=[item_names_state, item_counts_state, config_status]
+        )
+
         # Removed: top DoND sample slider bindings
         
         # Load DoND visualization sample
         load_viz_btn.click(
             fn=load_dond_sample_viz,
-            inputs=[viz_sample_idx, use_llm_detection, filter_no_deal, enable_coach, model_dropdown],
+            inputs=[
+                viz_sample_idx,
+                use_llm_detection,
+                filter_no_deal,
+                enable_coach,
+                model_dropdown,
+                dond_item0_name,
+                dond_item1_name,
+                dond_item2_name
+            ],
             outputs=[item_counts, speaker_stats, coach_advice, message_timeline, speaker_plot, content_plot]
         )
         
