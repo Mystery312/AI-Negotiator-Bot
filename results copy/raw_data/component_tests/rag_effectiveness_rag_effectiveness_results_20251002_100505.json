@@ -1,0 +1,450 @@
+{
+  "test_type": "rag_effectiveness",
+  "start_time": 1759367097.4255812,
+  "end_time": 1759367105.4188974,
+  "duration": 7.993316411972046,
+  "sample_count": 10,
+  "statistics": {},
+  "data": [
+    {
+      "query": "How should I handle aggressive negotiators?",
+      "expected_category": "aggressive_negotiators",
+      "rag_results": {
+        "none": {
+          "query": "How should I handle aggressive negotiators?",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.019073486328125,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "How should I handle aggressive negotiators?",
+          "rag_type": "generic",
+          "context": "When dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nWhen facing threats or ultimatums, remain calm and ask for clarification. Explore the underlying interests behind the threat. Consider whether the threat is credible and what alternatives you have if the threat is carried out.",
+          "retrieval_time_ms": 36.54670715332031,
+          "context_length": 1262,
+          "relevance_score": 0.2,
+          "success": true
+        },
+        "casino": {
+          "query": "How should I handle aggressive negotiators?",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Ya that works for me.  \nReply: It is always so great when everyone gets what they want and/or need, don't you think? I am so pleased to be negotiating with such an agreeable person!\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Exactly, it is so nice when negotiations go smoothly.\nReply: I agree. Thank you for being reasonable. \n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Nice negotiating with you\nReply: Submit-Deal\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Sorry, I've got other things to do in addition to this negotiation. And I don't really have a grasp on how important these resources are you to you and why I should give in to your demands.\nReply: Well then offer a counterdeal! I don't understand what you want me to do if you're not giving options lol\n",
+          "retrieval_time_ms": 29.965639114379883,
+          "context_length": 912,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        },
+        "combined": {
+          "query": "How should I handle aggressive negotiators?",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Ya that works for me.  \nReply: It is always so great when everyone gets what they want and/or need, don't you think? I am so pleased to be negotiating with such an agreeable person!\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Exactly, it is so nice when negotiations go smoothly.\nReply: I agree. Thank you for being reasonable. \n",
+          "retrieval_time_ms": 24.640560150146484,
+          "context_length": 1247,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.536991",
+      "sample_id": "rag_effectiveness_0000"
+    },
+    {
+      "query": "What's the best way to make concessions?",
+      "expected_category": "concessions",
+      "rag_results": {
+        "none": {
+          "query": "What's the best way to make concessions?",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.03552436828613281,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "What's the best way to make concessions?",
+          "rag_type": "generic",
+          "context": "When making concessions, start with small, low-cost concessions to test the other party's willingness to reciprocate. Never make unilateral concessions without getting something in return. Keep track of all concessions made and received.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nFor information sharing in negotiations, start with low-risk information to build trust. Gradually increase the depth of information shared as reciprocity develops. Always verify information received from the other party before making decisions based on it.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.",
+          "retrieval_time_ms": 10.294675827026367,
+          "context_length": 1271,
+          "relevance_score": 0.5,
+          "success": true
+        },
+        "casino": {
+          "query": "What's the best way to make concessions?",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Yeah, I tried to be as fair as possible\nReply: Submit-Deal\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n",
+          "retrieval_time_ms": 9.936809539794922,
+          "context_length": 431,
+          "relevance_score": 0.1,
+          "success": true
+        },
+        "combined": {
+          "query": "What's the best way to make concessions?",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nWhen making concessions, start with small, low-cost concessions to test the other party's willingness to reciprocate. Never make unilateral concessions without getting something in return. Keep track of all concessions made and received.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nFor information sharing in negotiations, start with low-risk information to build trust. Gradually increase the depth of information shared as reciprocity develops. Always verify information received from the other party before making decisions based on it.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Yeah, I tried to be as fair as possible\nReply: Submit-Deal\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n",
+          "retrieval_time_ms": 22.23682403564453,
+          "context_length": 990,
+          "relevance_score": 0.5,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.579907",
+      "sample_id": "rag_effectiveness_0001"
+    },
+    {
+      "query": "How can I build trust in negotiations?",
+      "expected_category": "trust_building",
+      "rag_results": {
+        "none": {
+          "query": "How can I build trust in negotiations?",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.03528594970703125,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "How can I build trust in negotiations?",
+          "rag_type": "generic",
+          "context": "To build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nFor information sharing in negotiations, start with low-risk information to build trust. Gradually increase the depth of information shared as reciprocity develops. Always verify information received from the other party before making decisions based on it.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.",
+          "retrieval_time_ms": 11.260032653808594,
+          "context_length": 1293,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        },
+        "casino": {
+          "query": "How can I build trust in negotiations?",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n",
+          "retrieval_time_ms": 9.493112564086914,
+          "context_length": 403,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "combined": {
+          "query": "How can I build trust in negotiations?",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nFor information sharing in negotiations, start with low-risk information to build trust. Gradually increase the depth of information shared as reciprocity develops. Always verify information received from the other party before making decisions based on it.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Submit-Deal\nReply: Accept-Deal\n",
+          "retrieval_time_ms": 18.697500228881836,
+          "context_length": 1022,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.619757",
+      "sample_id": "rag_effectiveness_0002"
+    },
+    {
+      "query": "What should I do when facing ultimatums?",
+      "expected_category": "pressure_handling",
+      "rag_results": {
+        "none": {
+          "query": "What should I do when facing ultimatums?",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.034809112548828125,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "What should I do when facing ultimatums?",
+          "rag_type": "generic",
+          "context": "When facing threats or ultimatums, remain calm and ask for clarification. Explore the underlying interests behind the threat. Consider whether the threat is credible and what alternatives you have if the threat is carried out.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.",
+          "retrieval_time_ms": 10.545015335083008,
+          "context_length": 1262,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        },
+        "casino": {
+          "query": "What should I do when facing ultimatums?",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Sorry, I've got other things to do in addition to this negotiation. And I don't really have a grasp on how important these resources are you to you and why I should give in to your demands.\nReply: Well then offer a counterdeal! I don't understand what you want me to do if you're not giving options lol\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: It's honestly not that fair to me either, but sometimes we just end up with slightly conflicting priorities in life.  \ud83d\ude42  I think making the best of the situation is the way forward.\nReply: Yeah, That's true,\ud83d\ude42, so do we have a deal?\n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Ya that works for me.  \nReply: It is always so great when everyone gets what they want and/or need, don't you think? I am so pleased to be negotiating with such an agreeable person!\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: That does not seem entirely fare but I need more water so I will take this deal\nReply: It's honestly not that fair to me either, but sometimes we just end up with slightly conflicting priorities in life.  \ud83d\ude42  I think making the best of the situation is the way forward.\n",
+          "retrieval_time_ms": 11.128902435302734,
+          "context_length": 1265,
+          "relevance_score": 0.5,
+          "success": true
+        },
+        "combined": {
+          "query": "What should I do when facing ultimatums?",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nWhen facing threats or ultimatums, remain calm and ask for clarification. Explore the underlying interests behind the threat. Consider whether the threat is credible and what alternatives you have if the threat is carried out.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Sorry, I've got other things to do in addition to this negotiation. And I don't really have a grasp on how important these resources are you to you and why I should give in to your demands.\nReply: Well then offer a counterdeal! I don't understand what you want me to do if you're not giving options lol\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: It's honestly not that fair to me either, but sometimes we just end up with slightly conflicting priorities in life.  \ud83d\ude42  I think making the best of the situation is the way forward.\nReply: Yeah, That's true,\ud83d\ude42, so do we have a deal?\n",
+          "retrieval_time_ms": 19.361019134521484,
+          "context_length": 1476,
+          "relevance_score": 0.5,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.661238",
+      "sample_id": "rag_effectiveness_0003"
+    },
+    {
+      "query": "How do I break a negotiation deadlock?",
+      "expected_category": "deadlock_resolution",
+      "rag_results": {
+        "none": {
+          "query": "How do I break a negotiation deadlock?",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.021457672119140625,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "How do I break a negotiation deadlock?",
+          "rag_type": "generic",
+          "context": "To handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nWhen the other party defects or acts uncooperatively, resist the urge to retaliate immediately. Consider whether this is a temporary setback or a fundamental change in their approach. Use tit-for-tat strategy: cooperate initially, then mirror their last move.",
+          "retrieval_time_ms": 10.148763656616211,
+          "context_length": 1295,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        },
+        "casino": {
+          "query": "How do I break a negotiation deadlock?",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: I could have wanted to continue negotiating but I think that isthe best I can get. deal\nReply: That's wonderful thank you for understanding my condition I really appriciate it.\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: That works. Thanks for negotiating with me. \nReply: Your welcome I agree to the negotiation.\n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Ok, deal. it was nice negotiating with you\nReply: Submit-Deal\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: youre a good negotiator \ud83d\ude42\nReply: Submit-Deal\n",
+          "retrieval_time_ms": 11.10076904296875,
+          "context_length": 656,
+          "relevance_score": 0.2,
+          "success": true
+        },
+        "combined": {
+          "query": "How do I break a negotiation deadlock?",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: I could have wanted to continue negotiating but I think that isthe best I can get. deal\nReply: That's wonderful thank you for understanding my condition I really appriciate it.\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: That works. Thanks for negotiating with me. \nReply: Your welcome I agree to the negotiation.\n",
+          "retrieval_time_ms": 20.011425018310547,
+          "context_length": 1244,
+          "relevance_score": 0.4,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.703004",
+      "sample_id": "rag_effectiveness_0004"
+    },
+    {
+      "query": "I want to share information but I'm not sure how much",
+      "expected_category": "information_sharing",
+      "rag_results": {
+        "none": {
+          "query": "I want to share information but I'm not sure how much",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.03504753112792969,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "I want to share information but I'm not sure how much",
+          "rag_type": "generic",
+          "context": "For information sharing in negotiations, start with low-risk information to build trust. Gradually increase the depth of information shared as reciprocity develops. Always verify information received from the other party before making decisions based on it.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nWhen facing threats or ultimatums, remain calm and ask for clarification. Explore the underlying interests behind the threat. Consider whether the threat is credible and what alternatives you have if the threat is carried out.\n\n\n\nWhen making concessions, start with small, low-cost concessions to test the other party's willingness to reciprocate. Never make unilateral concessions without getting something in return. Keep track of all concessions made and received.",
+          "retrieval_time_ms": 10.071277618408203,
+          "context_length": 1265,
+          "relevance_score": 0.2,
+          "success": true
+        },
+        "casino": {
+          "query": "I want to share information but I'm not sure how much",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Would you be willing to share 1 food?  I'm going to need some.\nReply: that will bring down my resources a lot\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Before making a deal I like to talk to people, to get to know them better. And if we are going to make a proposal for a party between the two families in the camp, it is in our best interest to know each other better.\nReply: Understood, but I don't know anything about you.  I've offered a lot of information about me.  This is a two-way street. \ud83d\ude42  \n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: What I don't understand is that you requested I respond quicker to your messages, yet you do not respond with much detail or discussion.\nReply: i want my share as well I give you 2 wood 2 water  and one food \n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Well that's interesting because I don't even know what is is.\nReply: We aren't allowed to submit it just yet. So let's chat. What do you value most among the items?\n",
+          "retrieval_time_ms": 9.915351867675781,
+          "context_length": 1113,
+          "relevance_score": 0.5,
+          "success": true
+        },
+        "combined": {
+          "query": "I want to share information but I'm not sure how much",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nFor information sharing in negotiations, start with low-risk information to build trust. Gradually increase the depth of information shared as reciprocity develops. Always verify information received from the other party before making decisions based on it.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Would you be willing to share 1 food?  I'm going to need some.\nReply: that will bring down my resources a lot\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Before making a deal I like to talk to people, to get to know them better. And if we are going to make a proposal for a party between the two families in the camp, it is in our best interest to know each other better.\nReply: Understood, but I don't know anything about you.  I've offered a lot of information about me.  This is a two-way street. \ud83d\ude42  \n",
+          "retrieval_time_ms": 19.98615264892578,
+          "context_length": 1420,
+          "relevance_score": 0.5,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.743415",
+      "sample_id": "rag_effectiveness_0005"
+    },
+    {
+      "query": "The other party is being very competitive",
+      "expected_category": "competitive_handling",
+      "rag_results": {
+        "none": {
+          "query": "The other party is being very competitive",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.03838539123535156,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "The other party is being very competitive",
+          "rag_type": "generic",
+          "context": "When the other party defects or acts uncooperatively, resist the urge to retaliate immediately. Consider whether this is a temporary setback or a fundamental change in their approach. Use tit-for-tat strategy: cooperate initially, then mirror their last move.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nFor information sharing in negotiations, start with low-risk information to build trust. Gradually increase the depth of information shared as reciprocity develops. Always verify information received from the other party before making decisions based on it.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.",
+          "retrieval_time_ms": 11.007070541381836,
+          "context_length": 1293,
+          "relevance_score": 0.4,
+          "success": true
+        },
+        "casino": {
+          "query": "The other party is being very competitive",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Nice, Maybe ours can play together some.  I know mine seem to fight less when they have other people to play with\nReply: I think having extra kids around always helps keep them out of trouble.\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Are you bringing guest?\nReply: I am a campaign partner\n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Yes actually, 2 of them. A boy and girl.\nReply: Nice, Maybe ours can play together some.  I know mine seem to fight less when they have other people to play with\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: I think this deal is fair to both parties and serves both of our needs. Agree?\nReply: Yeah, I tried to be as fair as possible\n",
+          "retrieval_time_ms": 10.619640350341797,
+          "context_length": 815,
+          "relevance_score": 0.2,
+          "success": true
+        },
+        "combined": {
+          "query": "The other party is being very competitive",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nWhen the other party defects or acts uncooperatively, resist the urge to retaliate immediately. Consider whether this is a temporary setback or a fundamental change in their approach. Use tit-for-tat strategy: cooperate initially, then mirror their last move.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Nice, Maybe ours can play together some.  I know mine seem to fight less when they have other people to play with\nReply: I think having extra kids around always helps keep them out of trouble.\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Are you bringing guest?\nReply: I am a campaign partner\n",
+          "retrieval_time_ms": 19.392013549804688,
+          "context_length": 1222,
+          "relevance_score": 0.4,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.784884",
+      "sample_id": "rag_effectiveness_0006"
+    },
+    {
+      "query": "How do I anchor my position effectively?",
+      "expected_category": "anchoring",
+      "rag_results": {
+        "none": {
+          "query": "How do I anchor my position effectively?",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.020265579223632812,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "How do I anchor my position effectively?",
+          "rag_type": "generic",
+          "context": "To build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\n\n\nWhen facing threats or ultimatums, remain calm and ask for clarification. Explore the underlying interests behind the threat. Consider whether the threat is credible and what alternatives you have if the threat is carried out.\n\n\n\nWhen the other party defects or acts uncooperatively, resist the urge to retaliate immediately. Consider whether this is a temporary setback or a fundamental change in their approach. Use tit-for-tat strategy: cooperate initially, then mirror their last move.",
+          "retrieval_time_ms": 8.884906768798828,
+          "context_length": 1289,
+          "relevance_score": 0.4,
+          "success": true
+        },
+        "casino": {
+          "query": "How do I anchor my position effectively?",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: hi, I'm excited to go camping soon\nReply: Me too! What are you most interested in securing?\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Wood is my highest priority. I need it to stay warm. I'm very cold-natured. What is your highest priority? \ud83d\ude42\nReply: Oh that's good. Wood is not my highest priority since I get hot easily lol. My highest priority is probably food because I have a very high metabolism and get very hungry\n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Thanks for letting us know your situation. In this situation, we have to share the available resources between us.Kindly tell what is your highest and lowest priority pckage?\nReply: Food is my highest priority. I'm less concerned with firewood, as I can find some along the way. How about you/\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Appreciate it. But, it's not advisable to rely on skills, we never know what situation can we expect?\nReply: Thats true--But I am concerned about you if something happens to me you may not be able to utlise it. Maybe you could but I think we would both benfit if I held all the fire wood that way I could teach you some tricks.\n",
+          "retrieval_time_ms": 10.05864143371582,
+          "context_length": 1280,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        },
+        "combined": {
+          "query": "How do I anchor my position effectively?",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: hi, I'm excited to go camping soon\nReply: Me too! What are you most interested in securing?\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Wood is my highest priority. I need it to stay warm. I'm very cold-natured. What is your highest priority? \ud83d\ude42\nReply: Oh that's good. Wood is not my highest priority since I get hot easily lol. My highest priority is probably food because I have a very high metabolism and get very hungry\n",
+          "retrieval_time_ms": 20.97797393798828,
+          "context_length": 1341,
+          "relevance_score": 0.4,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.825274",
+      "sample_id": "rag_effectiveness_0007"
+    },
+    {
+      "query": "What's the best way to close a deal?",
+      "expected_category": "deal_closing",
+      "rag_results": {
+        "none": {
+          "query": "What's the best way to close a deal?",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.034809112548828125,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "What's the best way to close a deal?",
+          "rag_type": "generic",
+          "context": "To handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\n\n\nWhen making concessions, start with small, low-cost concessions to test the other party's willingness to reciprocate. Never make unilateral concessions without getting something in return. Keep track of all concessions made and received.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\n\n\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nFor information sharing in negotiations, start with low-risk information to build trust. Gradually increase the depth of information shared as reciprocity develops. Always verify information received from the other party before making decisions based on it.",
+          "retrieval_time_ms": 10.402441024780273,
+          "context_length": 1310,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        },
+        "casino": {
+          "query": "What's the best way to close a deal?",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: okay i have to go withthe first option.Am glad we finally agreed on a deal\nReply: Submit-Deal\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: okay, that's great deal we can finalize a deal\nReply: Submit-Deal\n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: So here is my final proposal, this is the best deal I will offer.  \nReply: Submit-Deal\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Okay, I'll try to submit the deal\nReply: Submit-Deal\n",
+          "retrieval_time_ms": 9.259939193725586,
+          "context_length": 579,
+          "relevance_score": 0.4,
+          "success": true
+        },
+        "combined": {
+          "query": "What's the best way to close a deal?",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\n\n\nWhen making concessions, start with small, low-cost concessions to test the other party's willingness to reciprocate. Never make unilateral concessions without getting something in return. Keep track of all concessions made and received.\n\n\n\nFor cooperative negotiation strategies, focus on expanding the pie rather than dividing it. Look for creative solutions that satisfy both parties' interests. Use brainstorming techniques to generate multiple options before deciding.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: okay i have to go withthe first option.Am glad we finally agreed on a deal\nReply: Submit-Deal\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: okay, that's great deal we can finalize a deal\nReply: Submit-Deal\n",
+          "retrieval_time_ms": 18.726587295532227,
+          "context_length": 1062,
+          "relevance_score": 0.30000000000000004,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.864025",
+      "sample_id": "rag_effectiveness_0008"
+    },
+    {
+      "query": "How do I handle emotional appeals?",
+      "expected_category": "emotional_handling",
+      "rag_results": {
+        "none": {
+          "query": "How do I handle emotional appeals?",
+          "rag_type": "none",
+          "context": "",
+          "retrieval_time_ms": 0.057220458984375,
+          "context_length": 0,
+          "relevance_score": 0.0,
+          "success": true
+        },
+        "generic": {
+          "query": "How do I handle emotional appeals?",
+          "rag_type": "generic",
+          "context": "When dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nWhen facing threats or ultimatums, remain calm and ask for clarification. Explore the underlying interests behind the threat. Consider whether the threat is credible and what alternatives you have if the threat is carried out.\n\n\n\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\n\n\nTo build trust in negotiations, be consistent in your behavior and follow through on commitments. Show respect for the other party's interests and concerns. Use objective criteria when possible to justify your positions.\n\n\n\nWhen the other party defects or acts uncooperatively, resist the urge to retaliate immediately. Consider whether this is a temporary setback or a fundamental change in their approach. Use tit-for-tat strategy: cooperate initially, then mirror their last move.",
+          "retrieval_time_ms": 9.481668472290039,
+          "context_length": 1289,
+          "relevance_score": 0.1,
+          "success": true
+        },
+        "casino": {
+          "query": "How do I handle emotional appeals?",
+          "rag_type": "casino",
+          "context": "Example 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Again don't patronize me.  What is your main focus?\nReply: Please grow up. No one is patronizing you. I'm trying to negotiate. Don't be so emotional okay?\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Please grow up. No one is patronizing you. I'm trying to negotiate. Don't be so emotional okay?\nReply: Grow up. \ud83d\ude42 This was too easy.  Now please answer the question.\n\nExample 3 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: no that not fair for me\nReply: what are your options?\n\nExample 4 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: You are not getting everything, thats just selfish\nReply: sorry for making you feel so\n",
+          "retrieval_time_ms": 10.878324508666992,
+          "context_length": 741,
+          "relevance_score": 0.1,
+          "success": true
+        },
+        "combined": {
+          "query": "How do I handle emotional appeals?",
+          "rag_type": "combined",
+          "context": "Generic RAG:\nWhen dealing with aggressive negotiators, maintain calm and professional demeanor. Use active listening to understand their concerns. Avoid matching their aggression - instead, redirect the conversation toward mutual interests and shared goals. Document all agreements in writing to prevent misunderstandings.\n\n\n\nWhen facing threats or ultimatums, remain calm and ask for clarification. Explore the underlying interests behind the threat. Consider whether the threat is credible and what alternatives you have if the threat is carried out.\n\n\n\nTo handle deadlocks in negotiations, take a break to allow emotions to cool. Bring in a neutral third party if necessary. Focus on underlying interests rather than positions. Consider whether the current negotiation is the right forum for resolving the issue.\n\nCaSiNo RAG:\nExample 1 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Again don't patronize me.  What is your main focus?\nReply: Please grow up. No one is patronizing you. I'm trying to negotiate. Don't be so emotional okay?\n\nExample 2 (Strategy: unknown, PD: C, Personality: unknown):\nSpeaker: Please grow up. No one is patronizing you. I'm trying to negotiate. Don't be so emotional okay?\nReply: Grow up. \ud83d\ude42 This was too easy.  Now please answer the question.\n",
+          "retrieval_time_ms": 18.500089645385742,
+          "context_length": 1289,
+          "relevance_score": 0.2,
+          "success": true
+        }
+      },
+      "timestamp": "2025-10-02T10:05:00.903362",
+      "sample_id": "rag_effectiveness_0009"
+    }
+  ]
+}

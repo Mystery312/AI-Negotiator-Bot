@@ -1,0 +1,832 @@
+{
+  "test_type": "conversation_scoring",
+  "start_time": 1759366546.8628995,
+  "end_time": 1759366626.072901,
+  "duration": 79.2100019454956,
+  "sample_count": 5,
+  "statistics": {},
+  "data": [
+    {
+      "sample_id": "conversation_scoring_0000",
+      "conversation": [
+        "I want more books",
+        "That's not fair",
+        "I can offer you 60% of the books"
+      ],
+      "expert_annotation": {
+        "strategy": "competitive",
+        "phase": "bargaining",
+        "risk_level": "medium",
+        "cooperation_level": "low",
+        "volatility": "high"
+      },
+      "enhanced_prediction": {
+        "strategy": "concession_making",
+        "phase": "opening",
+        "risk_level": "low",
+        "scores": {
+          "coop_me": 0.0,
+          "coop_opp": 0.0,
+          "comp_me": 0.0,
+          "comp_opp": 0.0,
+          "reciprocity": 1.0,
+          "volatility": 0.0,
+          "last_pair": [
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "recent_trend": "stable",
+          "momentum": 0.0,
+          "move_count": 3,
+          "my_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "opp_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "avg_my_intensity": 1.0,
+          "avg_opp_intensity": 1.0,
+          "my_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "opp_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "concession_ratio": 0.0,
+          "pressure_ratio": 0.0,
+          "info_balance": 0.0,
+          "strategic_advantage": 0.0,
+          "comm_quality": 0.0,
+          "trust_level": 0.0,
+          "defensive_ratio": 0.0,
+          "value_balance": 0.0,
+          "phase": "opening",
+          "risk_level": 0,
+          "risk_factors": [],
+          "no_deal_count": 0,
+          "my_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "opp_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "my_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "opp_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "my_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "opp_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "concession_curve_me": 0,
+          "concession_curve_opp": 0,
+          "offer_variance_opp": 0,
+          "aspiration_gap": 0
+        }
+      },
+      "baseline_prediction": {
+        "cooperation_rate": 0.6666666666666666,
+        "strategy": "cooperative",
+        "phase": "bargaining",
+        "risk_level": "medium"
+      },
+      "enhanced_accuracy": {
+        "strategy": 0.0,
+        "phase": 0.0,
+        "risk_level": 0.0
+      },
+      "baseline_accuracy": {
+        "strategy": 0.0,
+        "phase": 1.0,
+        "risk_level": 1.0
+      },
+      "processing_times": {
+        "enhanced_ms": 0.13184547424316406,
+        "baseline_ms": 0.03838539123535156
+      },
+      "timestamp": "2025-10-02T09:55:49.294200"
+    },
+    {
+      "sample_id": "conversation_scoring_0001",
+      "conversation": [
+        "Let's work together on this",
+        "I agree, what do you suggest?",
+        "How about we split everything equally?"
+      ],
+      "expert_annotation": {
+        "strategy": "collaborative",
+        "phase": "exploration",
+        "risk_level": "low",
+        "cooperation_level": "high",
+        "volatility": "low"
+      },
+      "enhanced_prediction": {
+        "strategy": "concession_making",
+        "phase": "opening",
+        "risk_level": "low",
+        "scores": {
+          "coop_me": 0.0,
+          "coop_opp": 0.0,
+          "comp_me": 0.0,
+          "comp_opp": 0.0,
+          "reciprocity": 1.0,
+          "volatility": 0.0,
+          "last_pair": [
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "recent_trend": "stable",
+          "momentum": 0.0,
+          "move_count": 3,
+          "my_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "opp_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "avg_my_intensity": 1.0,
+          "avg_opp_intensity": 1.0,
+          "my_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "opp_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "concession_ratio": 0.0,
+          "pressure_ratio": 0.0,
+          "info_balance": 0.0,
+          "strategic_advantage": 0.0,
+          "comm_quality": 0.0,
+          "trust_level": 0.0,
+          "defensive_ratio": 0.0,
+          "value_balance": 0.0,
+          "phase": "opening",
+          "risk_level": 0,
+          "risk_factors": [],
+          "no_deal_count": 0,
+          "my_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "opp_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "my_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "opp_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "my_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "opp_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "concession_curve_me": 0,
+          "concession_curve_opp": 0,
+          "offer_variance_opp": 0,
+          "aspiration_gap": 0
+        }
+      },
+      "baseline_prediction": {
+        "cooperation_rate": 1.0,
+        "strategy": "cooperative",
+        "phase": "bargaining",
+        "risk_level": "medium"
+      },
+      "enhanced_accuracy": {
+        "strategy": 0.0,
+        "phase": 0.0,
+        "risk_level": 1.0
+      },
+      "baseline_accuracy": {
+        "strategy": 0.0,
+        "phase": 0.0,
+        "risk_level": 0.0
+      },
+      "processing_times": {
+        "enhanced_ms": 0.10514259338378906,
+        "baseline_ms": 0.03147125244140625
+      },
+      "timestamp": "2025-10-02T09:55:51.705105"
+    },
+    {
+      "sample_id": "conversation_scoring_0002",
+      "conversation": [
+        "This is my final offer",
+        "Take it or leave it",
+        "I'm walking away"
+      ],
+      "expert_annotation": {
+        "strategy": "aggressive",
+        "phase": "closing",
+        "risk_level": "high",
+        "cooperation_level": "very_low",
+        "volatility": "very_high"
+      },
+      "enhanced_prediction": {
+        "strategy": "concession_making",
+        "phase": "opening",
+        "risk_level": "low",
+        "scores": {
+          "coop_me": 0.0,
+          "coop_opp": 0.0,
+          "comp_me": 0.0,
+          "comp_opp": 0.0,
+          "reciprocity": 1.0,
+          "volatility": 0.0,
+          "last_pair": [
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "recent_trend": "stable",
+          "momentum": 0.0,
+          "move_count": 3,
+          "my_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "opp_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "avg_my_intensity": 1.0,
+          "avg_opp_intensity": 1.0,
+          "my_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "opp_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "concession_ratio": 0.0,
+          "pressure_ratio": 0.0,
+          "info_balance": 0.0,
+          "strategic_advantage": 0.0,
+          "comm_quality": 0.0,
+          "trust_level": 0.0,
+          "defensive_ratio": 0.0,
+          "value_balance": 0.0,
+          "phase": "opening",
+          "risk_level": 0,
+          "risk_factors": [],
+          "no_deal_count": 0,
+          "my_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "opp_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "my_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "opp_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "my_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "opp_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "concession_curve_me": 0,
+          "concession_curve_opp": 0,
+          "offer_variance_opp": 0,
+          "aspiration_gap": 0
+        }
+      },
+      "baseline_prediction": {
+        "cooperation_rate": 0.0,
+        "strategy": "competitive",
+        "phase": "bargaining",
+        "risk_level": "medium"
+      },
+      "enhanced_accuracy": {
+        "strategy": 0.0,
+        "phase": 0.0,
+        "risk_level": 0.0
+      },
+      "baseline_accuracy": {
+        "strategy": 0.0,
+        "phase": 0.0,
+        "risk_level": 0.0
+      },
+      "processing_times": {
+        "enhanced_ms": 0.1125335693359375,
+        "baseline_ms": 0.03695487976074219
+      },
+      "timestamp": "2025-10-02T09:55:53.641257"
+    },
+    {
+      "sample_id": "conversation_scoring_0003",
+      "conversation": [
+        "What are your priorities?",
+        "I need the books most",
+        "I can give you the books if you give me the hat"
+      ],
+      "expert_annotation": {
+        "strategy": "integrative",
+        "phase": "exploration",
+        "risk_level": "low",
+        "cooperation_level": "high",
+        "volatility": "low"
+      },
+      "enhanced_prediction": {
+        "strategy": "concession_making",
+        "phase": "opening",
+        "risk_level": "low",
+        "scores": {
+          "coop_me": 0.0,
+          "coop_opp": 0.0,
+          "comp_me": 0.0,
+          "comp_opp": 0.0,
+          "reciprocity": 1.0,
+          "volatility": 0.0,
+          "last_pair": [
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "recent_trend": "stable",
+          "momentum": 0.0,
+          "move_count": 3,
+          "my_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "opp_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "avg_my_intensity": 1.0,
+          "avg_opp_intensity": 1.0,
+          "my_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "opp_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "concession_ratio": 0.0,
+          "pressure_ratio": 0.0,
+          "info_balance": 0.0,
+          "strategic_advantage": 0.0,
+          "comm_quality": 0.0,
+          "trust_level": 0.0,
+          "defensive_ratio": 0.0,
+          "value_balance": 0.0,
+          "phase": "opening",
+          "risk_level": 0,
+          "risk_factors": [],
+          "no_deal_count": 0,
+          "my_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "opp_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "my_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "opp_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "my_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "opp_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "concession_curve_me": 0,
+          "concession_curve_opp": 0,
+          "offer_variance_opp": 0,
+          "aspiration_gap": 0
+        }
+      },
+      "baseline_prediction": {
+        "cooperation_rate": 1.0,
+        "strategy": "cooperative",
+        "phase": "bargaining",
+        "risk_level": "medium"
+      },
+      "enhanced_accuracy": {
+        "strategy": 0.0,
+        "phase": 0.0,
+        "risk_level": 1.0
+      },
+      "baseline_accuracy": {
+        "strategy": 0.0,
+        "phase": 0.0,
+        "risk_level": 0.0
+      },
+      "processing_times": {
+        "enhanced_ms": 0.05745887756347656,
+        "baseline_ms": 0.017881393432617188
+      },
+      "timestamp": "2025-10-02T09:55:55.880509"
+    },
+    {
+      "sample_id": "conversation_scoring_0004",
+      "conversation": [
+        "I'll give you 50%",
+        "That's not enough",
+        "Fine, 60%",
+        "Still not enough",
+        "70% and that's it"
+      ],
+      "expert_annotation": {
+        "strategy": "concession_making",
+        "phase": "bargaining",
+        "risk_level": "medium",
+        "cooperation_level": "medium",
+        "volatility": "medium"
+      },
+      "enhanced_prediction": {
+        "strategy": "concession_making",
+        "phase": "exploration",
+        "risk_level": "low",
+        "scores": {
+          "coop_me": 0.0,
+          "coop_opp": 0.0,
+          "comp_me": 0.0,
+          "comp_opp": 0.0,
+          "reciprocity": 1.0,
+          "volatility": 0.0,
+          "last_pair": [
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "recent_trend": "stable",
+          "momentum": 0.0,
+          "move_count": 5,
+          "my_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "opp_categories": {
+            "information": 6,
+            "value_creation": 0,
+            "value_claiming": 0,
+            "concession": 0,
+            "pressure": 0,
+            "relationship": 0,
+            "communication": 0,
+            "strategic": 0,
+            "defensive": 0,
+            "closure": 0
+          },
+          "avg_my_intensity": 1.0,
+          "avg_opp_intensity": 1.0,
+          "my_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "opp_intensity": [
+            "low",
+            "low",
+            "low",
+            "low",
+            "low",
+            "low"
+          ],
+          "concession_ratio": 0.0,
+          "pressure_ratio": 0.0,
+          "info_balance": 0.0,
+          "strategic_advantage": 0.0,
+          "comm_quality": 0.0,
+          "trust_level": 0.0,
+          "defensive_ratio": 0.0,
+          "value_balance": 0.0,
+          "phase": "exploration",
+          "risk_level": 0,
+          "risk_factors": [],
+          "no_deal_count": 0,
+          "my_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "opp_move_sequence": [
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER",
+            "INFO_GATHER"
+          ],
+          "my_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "opp_category_distribution": {
+            "information": 1.0,
+            "value_creation": 0.0,
+            "value_claiming": 0.0,
+            "concession": 0.0,
+            "pressure": 0.0,
+            "relationship": 0.0,
+            "communication": 0.0,
+            "strategic": 0.0,
+            "defensive": 0.0,
+            "closure": 0.0
+          },
+          "my_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "opp_intensity_distribution": {
+            "low": 1.0,
+            "medium": 0.0,
+            "high": 0.0
+          },
+          "concession_curve_me": 0,
+          "concession_curve_opp": 0,
+          "offer_variance_opp": 0,
+          "aspiration_gap": 0
+        }
+      },
+      "baseline_prediction": {
+        "cooperation_rate": 0.6,
+        "strategy": "competitive",
+        "phase": "bargaining",
+        "risk_level": "medium"
+      },
+      "enhanced_accuracy": {
+        "strategy": 1.0,
+        "phase": 0.0,
+        "risk_level": 0.0
+      },
+      "baseline_accuracy": {
+        "strategy": 0.0,
+        "phase": 1.0,
+        "risk_level": 1.0
+      },
+      "processing_times": {
+        "enhanced_ms": 0.05984306335449219,
+        "baseline_ms": 0.018596649169921875
+      },
+      "timestamp": "2025-10-02T09:55:59.585805"
+    }
+  ]
+}
