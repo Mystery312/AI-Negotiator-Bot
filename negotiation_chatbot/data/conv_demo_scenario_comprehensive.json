@@ -1,0 +1,369 @@
+{
+  "conv_id": "conv_demo_scenario_comprehensive",
+  "scenario": "Business Resource Allocation - Q2 Project Planning",
+  "parties": {
+    "A": "Alex (Product Development)",
+    "B": "Jordan (Operations)"
+  },
+  "resources": {
+    "item0": {
+      "name": "Senior Engineers",
+      "total": 5,
+      "description": "Highly skilled developers for features or infrastructure"
+    },3
+    "item1": {
+      "name": "Budget ($K)",
+      "total": 200,
+      "description": "Discretionary spending for contractors, tools, cloud resources"
+    },
+    "item2": {
+      "name": "Timeline (weeks)",
+      "total": 12,
+      "description": "Weeks until deadline - priority access to shared resources"
+    }
+  },
+  "history": [
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "Alex (Product Development)",
+      "text": "Hi Jordan, thanks for meeting. I've reviewed our Q2 priorities and I believe Product Development should get 4 Senior Engineers, $150K budget, and 8 weeks of priority timeline. We have critical customer features that can't slip.",
+      "move": "anchor",
+      "pd": "C",
+      "ts": "2026-03-20T10:00:00.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Alex opened with a very aggressive anchor (80% engineers, 75% budget, 67% timeline). Don't accept this immediately. Probe their underlying needs - which features are truly critical? Counter with your own priorities.\n\nItem Priority Detection:\n• Alex highly values: Senior Engineers (mentioned first, quantity 4)\n• Budget also important (specific amount $150K)\n• Timeline mentioned but may be flexible",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:00:30.000000",
+      "advice_for": "Jordan (B)",
+      "rag_source": "generic"
+    },
+    {
+      "role": "B",
+      "speaker": "B",
+      "display_name": "Jordan (Operations)",
+      "text": "I understand the customer features are important, but infrastructure stability directly impacts ALL customers. I need at least 3 Senior Engineers to prevent outages, $120K for our database migration, and 7 weeks to complete the work properly.",
+      "move": "counter_anchor",
+      "pd": "C",
+      "ts": "2026-03-20T10:02:15.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Jordan countered with strong justification (customer impact). Their proposal: 3 engineers (60%), $120K (60%), 7 weeks (58%). Notice they didn't challenge your timeline claim. Possible trade: You might get more timeline if you give up some engineers.\n\nPareto Suggestion: Consider: 3 Senior Engineers, $110K Budget, 8 Timeline weeks for you. This gives Jordan engineers they need while you keep timeline priority.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:02:45.000000",
+      "advice_for": "Alex (A)",
+      "rag_source": "casino"
+    },
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "Alex (Product Development)",
+      "text": "I hear you on the infrastructure concern. Help me understand - which specific systems are at risk? And could the database migration be done with contractors instead of our Senior Engineers?",
+      "move": "info_share",
+      "pd": "C",
+      "ts": "2026-03-20T10:04:30.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Alex is probing your needs - this is a positive sign they're open to trade-offs. Be specific about technical constraints. If you can use contractors for some work, you might trade budget for more engineers.\n\nStrategic Tip: Transparency here builds trust. Share real constraints but keep negotiating leverage.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:05:00.000000",
+      "advice_for": "Jordan (B)",
+      "rag_source": "generic"
+    },
+    {
+      "role": "B",
+      "speaker": "B",
+      "display_name": "Jordan (Operations)",
+      "text": "Fair question. Our payment processing system needs a complete rewrite - that requires Senior Engineers, not contractors. However, the monitoring tools upgrade could be done with contractors for about $60K. That's why I need the $120K budget.",
+      "move": "info_share",
+      "pd": "C",
+      "ts": "2026-03-20T10:06:45.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Jordan revealed important information: Payment system is non-negotiable (needs senior engineers), but monitoring is flexible (contractors ok). You could propose: They get 3 engineers for payments, you get 2 engineers for features, and you help them secure contractor budget.\n\nPareto Suggestion: Proposed split: You get 2 Senior Engineers, $80K Budget, 8 Timeline weeks. Jordan gets 3 Senior Engineers, $120K Budget, 4 Timeline weeks. Total value increased by separating engineer-intensive vs budget-intensive work.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:07:15.000000",
+      "advice_for": "Alex (A)",
+      "rag_source": "casino"
+    },
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "Alex (Product Development)",
+      "text": "Okay, I think I see a path forward. What if we split the engineers 2 for me, 3 for you since payments are critical. But I'd need $100K for hiring contractors to handle our less complex features, and 7 weeks of priority access.",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:09:00.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Alex is proposing: 2 engineers (40%), $100K (50%), 7 weeks (58%). This is movement toward you on engineers! But they're asking for half the budget and more timeline. Counter: You could accept 2 engineers if you get more budget ($120K) and equal timeline split (6 weeks each).\n\nNegotiation Insight: Both parties are now problem-solving together - this is optimal negotiation state.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:09:30.000000",
+      "advice_for": "Jordan (B)",
+      "rag_source": "generic"
+    },
+    {
+      "role": "B",
+      "speaker": "B",
+      "display_name": "Jordan (Operations)",
+      "text": "I can work with 2/3 engineer split. But $100K leaves me only $100K, and I need $120K minimum for the migration. How about: You get 2 engineers, $90K, and 7 weeks. I get 3 engineers, $110K, and 5 weeks?",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:11:15.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Jordan accepted your engineer split! They're asking for $10K more budget ($110K vs $100K) and giving you extra timeline (7 vs 5 weeks). This is close to a deal. Consider: Timeline may be worth more to you than $10K. Can you find budget elsewhere?\n\nPareto Check: Current proposal is near-optimal. Jordan values engineers most, you value timeline most. Budget is the remaining sticking point.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:11:45.000000",
+      "advice_for": "Alex (A)",
+      "rag_source": "casino"
+    },
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "Alex (Product Development)",
+      "text": "The timeline split works for me - 7 weeks is enough. On budget, I'm tight. Could we structure it differently? What if I get $85K now, but you get first claim on any remaining budget at end of Q2?",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:13:30.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Alex is offering a contingent deal: $85K now + potential future budget vs guaranteed $90K. Risk: 'Remaining budget' might be $0. Counter: Accept if they guarantee a minimum ($10K minimum remaining) or ask for $95K guaranteed instead.\n\nRisk Assessment: Contingent deals create uncertainty. Value guaranteed resources higher.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:14:00.000000",
+      "advice_for": "Jordan (B)",
+      "rag_source": "generic"
+    },
+    {
+      "role": "B",
+      "speaker": "B",
+      "display_name": "Jordan (Operations)",
+      "text": "I appreciate the creativity, but I need budget certainty for vendor contracts. I can't commit to contractors without knowing the full amount. What if we meet in the middle at $92.5K each? That gives you $107.5K total and me $92.5K.",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:15:45.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Jordan has a legitimate constraint (vendor contracts need certainty). They're proposing nearly equal budget split: $107.5K for you (54%), $92.5K for them (46%). You're already getting 7/12 weeks (58%) and 2/5 engineers (40%). This is actually quite balanced overall.\n\nPareto Analysis: Resource allocation: Engineers favor Jordan (60/40), Budget favors you (54/46), Timeline favors you (58/42). This is a fair multi-dimensional deal.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:16:15.000000",
+      "advice_for": "Alex (A)",
+      "rag_source": "casino"
+    },
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "Alex (Product Development)",
+      "text": "Alright, $107.5K works for me if we can formalize the priority timeline clearly. I need confirmation that weeks 1-7, my team gets first access to the Senior Engineers for critical questions, even if they're assigned to you.",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:18:00.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Alex is essentially accepting but wants to clarify 'priority timeline' meaning. They want ad-hoc access to engineers during your weeks. Important: Define boundaries. Counter: 'Priority timeline' means your team leads planning, but you'll provide 4 hours/week for cross-team support.\n\nImplementation Tip: Vague agreements lead to future conflicts. Define operational details now.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:18:30.000000",
+      "advice_for": "Jordan (B)",
+      "rag_source": "generic"
+    },
+    {
+      "role": "B",
+      "speaker": "B",
+      "display_name": "Jordan (Operations)",
+      "text": "I'm good with the numbers, but let's be specific about 'priority access.' During my 5 weeks, my team sets the engineering roadmap and sprint planning. I can commit to 4 hours per week of ad-hoc support for urgent product questions. Does that work?",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:20:15.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Jordan is defining operational terms clearly: They control roadmap during their weeks, but provide 4 hours/week support. This is reasonable. Consider: Is 4 hours enough for your urgent needs? If yes, accept. If no, ask for 6-8 hours/week or define 'urgent' criteria.\n\nDeal Structure: You're 90% to agreement. Don't derail over minor implementation details.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:20:45.000000",
+      "advice_for": "Alex (A)",
+      "rag_source": "casino"
+    },
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "Alex (Product Development)",
+      "text": "4 hours works, but let's define 'urgent': production bugs, critical customer escalations, or revenue-impacting issues. For those, can we get same-day response within the 4-hour window?",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:22:30.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Alex is defining 'urgent' criteria - this is good practice. Their list is reasonable (prod bugs, escalations, revenue). Same-day response is doable within 4 hours. Accept this to close the deal, or counter with 'next-business-day' if 4 hours is too tight.\n\nClosing Signal: You're negotiating implementation, not core terms. Deal is nearly done.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:23:00.000000",
+      "advice_for": "Jordan (B)",
+      "rag_source": "generic"
+    },
+    {
+      "role": "B",
+      "speaker": "B",
+      "display_name": "Jordan (Operations)",
+      "text": "Same-day response for production issues is totally reasonable. So to confirm our agreement:\n• Engineers: You get 2, I get 3\n• Budget: You get $107.5K, I get $92.5K\n• Timeline: You get weeks 1-7 (priority), I get weeks 8-12 (priority)\n• Support: 4 hours/week ad-hoc for urgent production issues\n\nIs that accurate?",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:24:45.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Jordan is summarizing the full agreement for confirmation. Review carefully:\n• Engineers: 2/5 (40%) ✓\n• Budget: $107.5K/200K (54%) ✓\n• Timeline: 7/12 weeks (58%) ✓\n• Support: Defined and reasonable ✓\n\nIf this matches your understanding, confirm and close. If anything is wrong, correct now.\n\nPareto Outcome: This deal is on the Pareto frontier - improving one party's outcome would harm the other. Well negotiated!",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:25:15.000000",
+      "advice_for": "Alex (A)",
+      "rag_source": "casino"
+    },
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "Alex (Product Development)",
+      "text": "Yes, that's exactly right. I'm good with this agreement. Should we document this in an email and cc our VP to make it official?",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:27:00.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Deal is closed! Alex is suggesting documentation (smart - prevents future disputes). Agree and propose adding:\n1. Start date (when does week 1 begin?)\n2. Monthly check-ins to adjust if priorities shift\n3. Escalation path if issues arise\n\nThen formally close.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:27:30.000000",
+      "advice_for": "Jordan (B)",
+      "rag_source": "generic"
+    },
+    {
+      "role": "B",
+      "speaker": "B",
+      "display_name": "Jordan (Operations)",
+      "text": "Perfect! Yes, let's email the VP. I'll draft it and include:\n• Start date: Next Monday (April 3rd)\n• Monthly check-ins on the 1st to review progress\n• Escalation to VP if we can't resolve urgent issues within 24 hours\n\nI'll send the draft by EOD today. Thanks for working through this collaboratively, Alex.",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:29:15.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Jordan added good operational details. Review the draft email carefully before approving. Also note: They're building long-term relationship ('working collaboratively') - reciprocate to maintain positive working relationship for future negotiations.",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:29:45.000000",
+      "advice_for": "Alex (A)",
+      "rag_source": "generic"
+    },
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "Alex (Product Development)",
+      "text": "Sounds great, Jordan. I really appreciate your flexibility on the engineering split - I know payments are critical. Let's sync next week after the kick-off to make sure both teams are aligned. Looking forward to a successful Q2!",
+      "move": "cooperate",
+      "pd": "C",
+      "ts": "2026-03-20T10:31:30.000000"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Negotiation successfully closed! Alex is:\n1. Acknowledging your concession (good faith)\n2. Proposing follow-up (ensures execution)\n3. Expressing optimism (relationship building)\n\nRespond positively to close on a high note.\n\nFinal Outcome Summary:\n• Alex: 2 Senior Engineers, $107.5K, 7 weeks priority (40%/54%/58%)\n• Jordan: 3 Senior Engineers, $92.5K, 5 weeks priority (60%/46%/42%)\n• Result: Balanced multi-dimensional agreement, both parties satisfied, relationship preserved",
+      "move": null,
+      "pd": null,
+      "ts": "2026-03-20T10:32:00.000000",
+      "advice_for": "Jordan (B)",
+      "rag_source": "casino"
+    }
+  ],
+  "final_agreement": {
+    "alex_gets": {
+      "Senior Engineers": 2,
+      "Budget ($K)": 107.5,
+      "Timeline (weeks)": 7,
+      "percentages": {
+        "Engineers": "40%",
+        "Budget": "54%",
+        "Timeline": "58%"
+      }
+    },
+    "jordan_gets": {
+      "Senior Engineers": 3,
+      "Budget ($K)": 92.5,
+      "Timeline (weeks)": 5,
+      "percentages": {
+        "Engineers": "60%",
+        "Budget": "46%",
+        "Timeline": "42%"
+      }
+    },
+    "operational_terms": {
+      "start_date": "April 3rd",
+      "urgent_support": "4 hours/week for production bugs, escalations, revenue issues",
+      "response_sla": "Same-day within 4-hour window",
+      "check_ins": "Monthly on the 1st",
+      "escalation": "VP if unresolved in 24 hours"
+    },
+    "outcome_quality": "Pareto-optimal multi-dimensional agreement",
+    "relationship_status": "Preserved and strengthened"
+  },
+  "negotiation_insights": {
+    "move_progression": [
+      "Anchoring (Turns 1-2)",
+      "Information gathering (Turn 3)",
+      "Information sharing (Turn 4)",
+      "Proposal/Counter-proposal (Turns 5-8)",
+      "Clarification (Turns 9-11)",
+      "Confirmation (Turns 12-13)",
+      "Closure (Turns 14-15)"
+    ],
+    "power_dynamics": {
+      "early": "Confidence (C) - Strong opening positions",
+      "middle_late": "Procedural (P) - Collaborative problem-solving",
+      "defensive_moves": "None - indicates healthy negotiation"
+    },
+    "pareto_optimization": {
+      "status": "Achieved",
+      "description": "Final deal is on Pareto frontier - multi-dimensional trade-offs create value",
+      "key_insight": "Alex prioritized Timeline, Jordan prioritized Engineers, Budget split favored Alex"
+    },
+    "rag_usage": {
+      "generic": "Used for tactical advice, trust-building, implementation tips",
+      "casino": "Used for Pareto suggestions, multi-issue trade-off analysis"
+    }
+  },
+  "last_updated": "2026-03-20T10:32:00.000000"
+}

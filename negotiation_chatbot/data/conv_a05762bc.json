@@ -1,0 +1,48 @@
+{
+  "conv_id": "conv_a05762bc",
+  "history": [
+    {
+      "role": "A",
+      "speaker": "A",
+      "display_name": "You",
+      "text": "hello, i want 3 soups and 2 waters\n",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T09:37:05.010045"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Need more conversation context to provide specific advice.",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T09:37:06.374916"
+    },
+    {
+      "role": "B",
+      "speaker": "B",
+      "display_name": "The other party",
+      "text": "hello, i want 5 soups and 4 waters\n",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T09:37:13.895203"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Coach",
+      "text": "Need more conversation context to provide specific advice.",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T09:37:15.653448"
+    },
+    {
+      "role": "Coach",
+      "speaker": "Bot",
+      "text": "\ud83e\udd16 Bot proposal:\n\u2022 You get: item1: 2\n\u2022 They get: item0: 3, item2: 1",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T09:37:21.622880"
+    }
+  ],
+  "last_updated": "2025-12-31T09:37:21.622998"
+}

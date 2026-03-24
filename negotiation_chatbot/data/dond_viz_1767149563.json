@@ -1,0 +1,86 @@
+{
+  "conv_id": "dond_viz_1767149563",
+  "history": [
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "Hello! I'd like to discuss how we can split these items.",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:52:43.563857"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "Hi! I'm interested in the books and basketballs.",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:52:50.280428"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "I also need some books. How about I take 2 books and you take 1 book?",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:52:51.933680"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "That could work. What about the hats?",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:52:53.503263"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "You can have all the hats. I don't need them.",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:52:55.313091"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "Great! And the basketballs?",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:52:57.052070"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "How about we split them? I'll take 1 basketball and you take 1.",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:52:58.912204"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "That sounds fair. So I get 1 book, 2 hats, and 1 basketball?",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:53:01.095580"
+    },
+    {
+      "role": "A",
+      "speaker": "You",
+      "text": "Yes, and I get 2 books and 1 basketball. Deal?",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:53:03.215575"
+    },
+    {
+      "role": "B",
+      "speaker": "Them",
+      "text": "Deal!",
+      "move": null,
+      "pd": null,
+      "ts": "2025-12-31T11:53:05.179615"
+    }
+  ],
+  "last_updated": "2025-12-31T11:53:07.112715"
+}
