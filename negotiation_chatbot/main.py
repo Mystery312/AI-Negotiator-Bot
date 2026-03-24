@@ -17,12 +17,14 @@ logger = logging.getLogger(__name__)
 # Import local modules
 from .ingest import label_text
 from .graph import upsert_turn, create_deal_outcome, mark_turn_as_accepted
-from .coach import get_advice, get_advice_async  # Phase 3: Added async version
+from .coach import get_advice, get_advice_async, record_strategy_outcome, _strategy_learner  # Phase 3: Added async version
 from .rag import retrieve_rag_context
 from .casino_rag import preload_casino_rag, initialize_casino_rag
 
-# Load environment variables
-load_dotenv()
+# Load environment variables from project root
+import pathlib
+_env_path = pathlib.Path(__file__).parent.parent / ".env"
+load_dotenv(dotenv_path=_env_path)
 
 #  OpenAI-compatible request/response  
 class Message(BaseModel):
@@ -67,13 +69,19 @@ async def startup_event():
     # Preloading takes 8-10 seconds due to loading Sentence Transformer models
     # Set PRELOAD_RAG=true environment variable to enable preloading
     if os.getenv("PRELOAD_RAG", "false").lower() == "true":
-        logger.info("Preloading CaSiNo RAG system...")
+        logger.info("Preloading RAG systems (CaSiNo + Generic)...")
         try:
+            # Preload CaSiNo RAG
             preload_casino_rag()
-            logger.info("CaSiNo RAG system preloaded successfully")
+            logger.info("✅ CaSiNo RAG system preloaded successfully")
+
+            # Preload Generic RAG
+            from negotiation_chatbot.rag import _ensure_initialized
+            _ensure_initialized()
+            logger.info("✅ Generic RAG system preloaded successfully")
         except Exception as e:
-            logger.error(f"Failed to preload CaSiNo RAG: {e}")
-            logger.info("Continuing without CaSiNo RAG - will use fallback")
+            logger.error(f"Failed to preload RAG systems: {e}")
+            logger.info("Continuing without RAG preload - will lazy-load on first use")
     else:
         logger.info("Skipping RAG preload for fast startup (set PRELOAD_RAG=true to enable)")
 
@@ -87,6 +95,8 @@ class ChatMessage(BaseModel):
     provider: str | None = "ollama"  # Add optional provider parameter
     item_names: dict[str, str] | None = None  # Custom item names {"item0": "Engineers", ...}
     item_counts: dict[str, int] | None = None  # Custom item counts {"item0": 3, ...}
+    parties: list[dict] | None = None  # N-party: [{"id": "p1", "name": "Alice", "weights": [0.5, 0.3, 0.2]}, ...]
+    coalitions: list[dict] | None = None  # [{"id": "c1", "member_ids": ["p1","p2"], "joint_weights": [...]}]
 
 @app.get("/health")
 async def health_check():
@@ -97,13 +107,17 @@ async def health_check():
 @app.post("/chat")
 async def chat(message: ChatMessage):
     """Process a chat message and return advice"""
+    import time
+    request_start = time.time()
     logger.info(f"Processing chat message: conv_id={message.conv_id}, speaker={message.speaker}, text={message.text[:50]}..., model={message.model}")
-    
+
     try:
-        # Step 1: Label the text to get move and pd
-        logger.info("Step 1: Labeling text...")
-        labels = label_text(message.text)
-        logger.info(f"Text labeled: {labels}")
+        # Step 1: Label the text to get move and pd (ASYNC for better performance)
+        step1_start = time.time()
+        logger.info("Step 1: Labeling text (async)...")
+        from negotiation_chatbot.ingest import label_text_async
+        labels = await label_text_async(message.text)
+        logger.info(f"✅ Step 1 completed in {time.time() - step1_start:.2f}s - Labels: {labels}")
         
         # Ensure we have the required fields
         if "move" not in labels:
@@ -134,6 +148,7 @@ async def chat(message: ChatMessage):
             logger.warning(f"Failed to upsert turn to Neo4j (continuing without graph): {e}")
         
         # Step 3: Get advice from the coach with selected model and provider
+        step3_start = time.time()
         logger.info(f"Step 3: Getting advice from coach using model {message.model} and provider {message.provider}...")
         # If provider is specified, use it; otherwise, determine from model name
         if message.provider:
@@ -147,7 +162,7 @@ async def chat(message: ChatMessage):
             else:
                 provider = "ollama"
                 model_name = message.model
-        
+
         # Extract item config or use defaults
         item_names = message.item_names or {}
         item_counts = message.item_counts or {"item0": 3, "item1": 2, "item2": 1}
@@ -159,9 +174,10 @@ async def chat(message: ChatMessage):
             model_name,
             provider=provider,
             item_names=item_names,
-            item_counts=item_counts
+            item_counts=item_counts,
+            parties=message.parties,
         )
-        logger.info(f"Advice received: {advice_result}")
+        logger.info(f"✅ Step 3 completed in {time.time() - step3_start:.2f}s")
         
         # Step 4: Log RAG usage in Neo4j (optional)
         try:
@@ -175,7 +191,8 @@ async def chat(message: ChatMessage):
             logger.warning(f"Failed to log RAG usage: {e}")
         
         # Step 5: Return the advice and reply
-        logger.info("Step 5: Returning response")
+        total_time = time.time() - request_start
+        logger.info(f"✅ REQUEST COMPLETE - Total time: {total_time:.2f}s")
         return {
             "advice": advice_result["advice"],
             "reply": advice_result["reply"],
@@ -341,6 +358,7 @@ async def create_deal_outcome_endpoint(deal: DealOutcome):
             status=deal.status,
             details=deal.details
         )
+        record_strategy_outcome(deal.conv_id, accepted=deal.deal_reached)
         return {"message": f"Deal outcome created for conversation {deal.conv_id}"}
     except Exception as e:
         logger.error(f"Error creating deal outcome: {e}")
@@ -351,9 +369,41 @@ async def mark_conversation_accepted(conv_id: str, turn_id: str | None = None):
     """Mark a conversation turn as accepted (deal reached)"""
     try:
         mark_turn_as_accepted(conv_id=conv_id, turn_id=turn_id)
+        record_strategy_outcome(conv_id, accepted=True)
         return {"message": f"Turn marked as accepted for conversation {conv_id}"}
     except Exception as e:
         logger.error(f"Error marking turn as accepted: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/strategy/weights")
+async def get_strategy_weights():
+    """Return current Thompson Sampling strategy weights for monitoring."""
+    return _strategy_learner.get_weights()
+
+class CoalitionCreate(BaseModel):
+    conv_id: str
+    coalition_id: str
+    member_names: list[str]
+
+@app.post("/coalition/create")
+async def create_coalition(req: CoalitionCreate):
+    """Create a coalition for an N-party negotiation."""
+    try:
+        from negotiation_chatbot.graph import upsert_coalition
+        upsert_coalition(req.conv_id, req.coalition_id, req.member_names)
+        return {"message": f"Coalition {req.coalition_id} created", "conv_id": req.conv_id}
+    except Exception as e:
+        logger.error(f"Error creating coalition: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/coalition/{conv_id}")
+async def get_coalitions(conv_id: str):
+    """Get all coalitions for a conversation."""
+    try:
+        from negotiation_chatbot.graph import fetch_coalitions
+        return fetch_coalitions(conv_id)
+    except Exception as e:
+        logger.error(f"Error fetching coalitions: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":

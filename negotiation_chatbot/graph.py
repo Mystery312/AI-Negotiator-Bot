@@ -184,17 +184,50 @@ def upsert_turn(conv_id: str, speaker: str, text: str, move: str, pd: str):
 def fetch_last_n(conv_id: str, n: int = 5) -> List[Dict[str, Any]]:
     """
     Fetch the last n turns for a conversation.
-    
+
     Args:
         conv_id: Conversation identifier
         n: Number of turns to fetch (default: 5)
-        
+
     Returns:
         List of dictionaries containing turn data, ordered ascending by timestamp
     """
     if not driver:
-        logger.error("Neo4j driver not available")
-        return []
+        logger.info("Neo4j driver not available, falling back to JSON file")
+        # Fallback: read from JSON file
+        import json
+        json_path = f"./negotiation_chatbot/data/{conv_id}.json"
+        if not os.path.exists(json_path):
+            json_path = f"./data/{conv_id}.json"
+        if not os.path.exists(json_path):
+            logger.warning(f"Conversation file not found: {json_path}")
+            return []
+
+        try:
+            with open(json_path, 'r') as f:
+                data = json.load(f)
+
+            # Filter out Coach/Bot messages, keep only A and B
+            history = data.get('history', [])
+            turns = []
+            for entry in history:
+                speaker = entry.get('speaker')
+                if speaker in ['A', 'B']:  # Only include negotiating parties
+                    turns.append({
+                        "id": entry.get('ts', str(uuid.uuid4())),
+                        "text": entry.get('text', ''),
+                        "move": entry.get('move'),
+                        "pd": entry.get('pd'),
+                        "ts": entry.get('ts', ''),
+                        "speaker": speaker
+                    })
+
+            # Return last n turns
+            logger.info(f"Fetched {len(turns[-n:])} turns from JSON file (total {len(turns)} A/B turns)")
+            return turns[-n:] if len(turns) > n else turns
+        except Exception as e:
+            logger.error(f"Error reading conversation from JSON: {e}")
+            return []
     
     def get_last_turns(tx, conv_id, n):
         result = tx.run("""
@@ -578,6 +611,79 @@ def mark_turn_as_accepted(conv_id: str, turn_id: str = None):
         logger.info(f"Turn marked as accepted: conv_id={conv_id}, turn_id={turn_id}")
     except Exception as e:
         logger.error(f"Error marking turn as accepted: {e}")
+
+def upsert_coalition(conv_id: str, coalition_id: str, member_names: List[str]):
+    """Create a Coalition node and link members to it.
+
+    Graceful no-op if Neo4j is disabled.
+
+    Args:
+        conv_id: Conversation identifier
+        coalition_id: Unique coalition identifier
+        member_names: List of party names in the coalition
+    """
+    if not driver:
+        logger.info("Neo4j disabled – skipping coalition upsert")
+        return
+
+    def _create_coalition(tx, conv_id, coalition_id, member_names):
+        # MERGE Coalition node
+        tx.run("""
+            MERGE (co:Coalition {id: $coalition_id})
+            """, coalition_id=coalition_id)
+        # Link to conversation
+        tx.run("""
+            MATCH (c:Conv {id: $conv_id})
+            MATCH (co:Coalition {id: $coalition_id})
+            MERGE (co)-[:IN_CONV]->(c)
+            """, conv_id=conv_id, coalition_id=coalition_id)
+        # Link members
+        for name in member_names:
+            tx.run("""
+                MERGE (p:Person {name: $name})
+                WITH p
+                MATCH (co:Coalition {id: $coalition_id})
+                MERGE (p)-[:MEMBER_OF]->(co)
+                """, name=name, coalition_id=coalition_id)
+
+    try:
+        def op():
+            with driver.session() as session:
+                session.execute_write(_create_coalition, conv_id, coalition_id, member_names)
+        execute_with_retry(op)
+        logger.info("Coalition %s upserted for conversation %s", coalition_id, conv_id)
+    except Exception as e:
+        logger.error("Error upserting coalition: %s", e)
+
+
+def fetch_coalitions(conv_id: str) -> List[Dict[str, Any]]:
+    """Fetch all coalitions and their members for a conversation.
+
+    Args:
+        conv_id: Conversation identifier
+
+    Returns:
+        List of dicts with keys: coalition_id, members
+    """
+    if not driver:
+        logger.info("Neo4j disabled – returning empty coalitions")
+        return []
+
+    def _get_coalitions(tx, conv_id):
+        result = tx.run("""
+            MATCH (co:Coalition)-[:IN_CONV]->(c:Conv {id: $conv_id})
+            OPTIONAL MATCH (p:Person)-[:MEMBER_OF]->(co)
+            RETURN co.id AS coalition_id, collect(p.name) AS members
+            """, conv_id=conv_id)
+        return [{"coalition_id": r["coalition_id"], "members": r["members"]} for r in result]
+
+    try:
+        with driver.session() as session:
+            return session.execute_read(_get_coalitions, conv_id)
+    except Exception as e:
+        logger.error("Error fetching coalitions: %s", e)
+        return []
+
 
 def store_offer(conv_id: str, speaker: str, issue: str, value: str, turn_number: int):
     """

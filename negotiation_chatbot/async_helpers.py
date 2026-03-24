@@ -85,6 +85,20 @@ async def upsert_turn_async(
     await run_in_thread(upsert_turn, conv_id, speaker, text, move, pd)
 
 
+async def upsert_coalition_async(conv_id: str, coalition_id: str, member_names: List[str]) -> None:
+    """Async wrapper for upserting a coalition to Neo4j."""
+    from negotiation_chatbot.graph import upsert_coalition
+    logger.debug(f"Async upserting coalition {coalition_id} for conversation {conv_id}")
+    await run_in_thread(upsert_coalition, conv_id, coalition_id, member_names)
+
+
+async def estimate_n_party_preferences_async(turn_texts: List[str], n_parties: int) -> List[List[float]]:
+    """Async wrapper for N-party preference estimation."""
+    from negotiation_chatbot.n_party_preference import estimate_n_party_preferences
+    logger.debug(f"Async estimating {n_parties}-party preferences for {len(turn_texts)} turns")
+    return await run_in_thread(estimate_n_party_preferences, turn_texts, n_parties)
+
+
 async def check_deal_reached_async(conv_id: str) -> bool:
     """
     Async wrapper for checking if a deal has been reached.

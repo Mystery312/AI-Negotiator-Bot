@@ -3,6 +3,7 @@ import re
 import logging
 import csv
 import uuid
+import asyncio
 from typing import Dict, List, Any
 from openai import OpenAI
 import pdfplumber
@@ -85,13 +86,90 @@ Return only the JSON object:"""
         
         logger.info(f"Labeled text: {result}")
         return result
-        
+
     except Exception as e:
         logger.error(f"Error labeling text: {e}")
         # Return fallback values with both move_type and move fields
         fallback = {"move_type": "info_share", "move": "info_share", "pd": "C"}
         logger.info(f"Using fallback values: {fallback}")
         return fallback
+
+
+async def label_text_async(text: str) -> Dict[str, str]:
+    """
+    Async version of label_text() using asyncio.to_thread.
+    Classify negotiation speech using GPT-4o-mini without blocking.
+
+    Args:
+        text: The input text to classify
+
+    Returns:
+        Dict with "move_type", "move", and "pd" keys
+    """
+    try:
+        prompt = f"""Classify this speech. Return JSON {{"move_type", "pd"}} where
+move_type ∈ [concession, threat, info_share, cooperate, defect]
+and pd is C if move_type ∈ [concession, info_share, cooperate]
+else D.
+
+Text: "{text}"
+
+Return only the JSON object:"""
+
+        logger.info(f"[ASYNC] Sending request to OpenAI for text: '{text[:50]}...'")
+
+        # Run blocking OpenAI call in thread pool to avoid blocking event loop
+        response = await asyncio.to_thread(
+            client.chat.completions.create,
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0,
+            max_tokens=100
+        )
+
+        # Extract JSON from response
+        result_text = response.choices[0].message.content.strip()
+        logger.info(f"[ASYNC] OpenAI response: {result_text}")
+
+        # Try to parse JSON, handle potential formatting issues
+        try:
+            result = json.loads(result_text)
+        except json.JSONDecodeError:
+            # If JSON parsing fails, try to extract JSON from the response
+            json_match = re.search(r'\{.*\}', result_text)
+            if json_match:
+                result = json.loads(json_match.group())
+            else:
+                # Fallback to default values
+                logger.warning(f"Failed to parse JSON from response: {result_text}")
+                result = {"move_type": "info_share", "pd": "C"}
+
+        # Validate the response
+        valid_move_types = ["concession", "threat", "info_share", "cooperate", "defect"]
+        if result.get("move_type") not in valid_move_types:
+            logger.warning(f"Invalid move_type: {result.get('move_type')}, using default")
+            result["move_type"] = "info_share"
+
+        # Set pd based on move_type
+        cooperative_moves = ["concession", "info_share", "cooperate"]
+        if result.get("move_type") in cooperative_moves:
+            result["pd"] = "C"
+        else:
+            result["pd"] = "D"
+
+        # Ensure we have both move_type and move fields
+        result["move"] = result["move_type"]
+
+        logger.info(f"[ASYNC] Labeled text: {result}")
+        return result
+
+    except Exception as e:
+        logger.error(f"[ASYNC] Error labeling text: {e}")
+        # Return fallback values with both move_type and move fields
+        fallback = {"move_type": "info_share", "move": "info_share", "pd": "C"}
+        logger.info(f"[ASYNC] Using fallback values: {fallback}")
+        return fallback
+
 
 def csv_to_turns(csv_path: str, conv_id: str) -> List[Dict[str, str]]:
     """

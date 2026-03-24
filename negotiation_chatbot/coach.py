@@ -27,6 +27,12 @@ try:
     from negotiation_chatbot.casino_rag import get_casino_context
     from negotiation_chatbot.pareto import best_offer, utility  # NEW – Pareto helper
     from negotiation_chatbot.preference import load_pref_model, estimate_preferences  # NEW
+    from negotiation_chatbot.semantic_cache import SemanticCache
+    from negotiation_chatbot.strategy_learner import StrategyLearner
+    from negotiation_chatbot.n_party_pareto import (
+        n_party_best_offer, Party, Coalition,
+    )
+    from negotiation_chatbot.n_party_preference import estimate_n_party_preferences
 except ImportError:
     # Fall back to local imports when running as script
     from graph import fetch_last_n
@@ -34,6 +40,10 @@ except ImportError:
     from casino_rag import get_casino_context
     from pareto import best_offer, utility  # NEW – Pareto helper
     from preference import load_pref_model, estimate_preferences  # NEW
+    from semantic_cache import SemanticCache
+    from strategy_learner import StrategyLearner
+    from n_party_pareto import n_party_best_offer, Party, Coalition
+    from n_party_preference import estimate_n_party_preferences
 
 
 # Load environment variables
@@ -113,6 +123,7 @@ def clear_cache():
     """Clear all caches (for testing/debugging)."""
     _cache.clear()
     _cache_timestamps.clear()
+    _rag_semantic_cache.clear()
     logger.info("All caches cleared")
 
 def get_cache_stats():
@@ -120,7 +131,8 @@ def get_cache_stats():
     return {
         "total_entries": len(_cache),
         "memory_bytes": sum(len(str(v)) for v in _cache.values()),
-        "oldest_entry_age": time.time() - min(_cache_timestamps.values()) if _cache_timestamps else 0
+        "oldest_entry_age": time.time() - min(_cache_timestamps.values()) if _cache_timestamps else 0,
+        "semantic_cache": _rag_semantic_cache.stats(),
     }
 
 def cleanup_expired_cache(max_age_seconds=600):
@@ -140,6 +152,9 @@ def cleanup_expired_cache(max_age_seconds=600):
         del _cache_timestamps[key]
     if expired_keys:
         logger.info(f"Cache cleanup: removed {len(expired_keys)} expired entries")
+
+# Module-level semantic cache for RAG queries
+_rag_semantic_cache = SemanticCache(similarity_threshold=0.9, ttl_seconds=600, max_entries=200)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -210,9 +225,11 @@ def extract_current_offers_cached(turns_json, model, item_names_json):
     item_names = json.loads(item_names_json) if item_names_json else None
     return extract_current_offers(turns, model, item_names)
 
-@cached_with_ttl(ttl_seconds=600)  # Cache for 10 minutes
 def retrieve_rag_context_cached(hint, turns_json):
-    """Cached wrapper for RAG context retrieval.
+    """Cached wrapper for RAG context retrieval using semantic similarity cache.
+
+    If a semantically similar query (cosine sim > 0.9) was recently made,
+    returns the cached result instead of hitting ChromaDB again.
 
     Args:
         hint: Negotiation advice hint/strategy
@@ -221,8 +238,15 @@ def retrieve_rag_context_cached(hint, turns_json):
     Returns:
         Tuple of (rag_context, rag_source)
     """
+    # Build a cache query from the hint (the primary semantic content)
+    cached_result, hit = _rag_semantic_cache.get(hint)
+    if hit:
+        return cached_result
+
     turns = json.loads(turns_json)
-    return _retrieve_rag_context(hint, turns)
+    result = _retrieve_rag_context(hint, turns)
+    _rag_semantic_cache.put(hint, result)
+    return result
 
 
 # (all existing taxonomy / scoring / util sections remain *unchanged*)
@@ -592,32 +616,46 @@ STRATEGIES = [
     )
 ]
 
-def rule_based_advice_enhanced(scores: Dict[str, Any], priorities: Dict[str, Dict[str, Any]] = None, current_offers: Dict[str, Dict[str, Any]] = None) -> str:
+_strategy_learner = StrategyLearner([s.name for s in STRATEGIES])
+
+def record_strategy_outcome(conv_id: str, accepted: bool) -> None:
+    """Record a deal outcome for strategy learning."""
+    _strategy_learner.record_outcome(conv_id, accepted)
+
+def rule_based_advice_enhanced(scores: Dict[str, Any], priorities: Dict[str, Dict[str, Any]] = None, current_offers: Dict[str, Dict[str, Any]] = None) -> tuple[str, str]:
     """
     Enhanced rule-based advice using pluggable strategies with item-specific context.
-    
+    Uses Thompson Sampling to select among triggered strategies.
+
     Args:
         scores: Dictionary with rich scoring metrics
         priorities: Dictionary of item priorities for each speaker
         current_offers: Dictionary of current offers for each speaker
-        
+
     Returns:
-        String advice based on selected strategy
+        Tuple of (advice_text, strategy_name)
     """
     logger.info(f"rule_based_advice_enhanced called with scores: {scores}")
-    
+
     # Inject "nice-guy" (tit-for-tat) bias
     if scores.get("coop_opp", 0) > .6 and scores.get("coop_me", 0) > .4:
         mirror_strategy = next((s for s in STRATEGIES if s.name == "MirrorCoop"), None)
         if mirror_strategy:
             logger.info("Using MirrorCoop strategy due to cooperative bias")
-            return mirror_strategy.advice
-    
-    # Check for specific strategies
+            return mirror_strategy.advice, "MirrorCoop"
+
+    # Collect all triggered strategies
+    triggered = []
+    triggered_map = {}
     for strat in STRATEGIES:
         if strat.trigger(scores):
-            logger.info(f"Selected strategy: {strat.name}")
-            return strat.advice
+            triggered.append(strat.name)
+            triggered_map[strat.name] = strat.advice
+
+    if triggered:
+        selected = _strategy_learner.select_strategy(triggered)
+        logger.info(f"Thompson Sampling selected strategy: {selected} (from {triggered})")
+        return triggered_map[selected], selected
     
     # If no strategy matches, provide context-aware fallback advice
     logger.info("No strategy matched, providing context-aware fallback")
@@ -648,23 +686,23 @@ def rule_based_advice_enhanced(scores: Dict[str, Any], priorities: Dict[str, Dic
     
     # Context-aware fallback advice with item-specific suggestions
     if coop_opp > 0.6 and coop_me < 0.4:
-        return f"Mirror their cooperative approach with a matching concession to build trust.{item_context}"
+        return f"Mirror their cooperative approach with a matching concession to build trust.{item_context}", "fallback"
     elif comp_opp > 0.7 and comp_me < 0.3:
-        return f"Stand firm but offer a small concession to show flexibility and avoid deadlock.{item_context}"
+        return f"Stand firm but offer a small concession to show flexibility and avoid deadlock.{item_context}", "fallback"
     elif reciprocity < 0.3:
-        return f"Break the negative pattern by making a unilateral gesture of goodwill.{item_context}"
+        return f"Break the negative pattern by making a unilateral gesture of goodwill.{item_context}", "fallback"
     elif volatility > 0.6:
-        return f"Stabilize the conversation by summarizing points of agreement and shared interests.{item_context}"
+        return f"Stabilize the conversation by summarizing points of agreement and shared interests.{item_context}", "fallback"
     elif coop_opp < 0.4 and comp_opp > 0.6:
-        return f"Respond to their competitive stance with measured firmness while keeping options open.{item_context}"
+        return f"Respond to their competitive stance with measured firmness while keeping options open.{item_context}", "fallback"
     elif coop_me > 0.6 and coop_opp > 0.6:
-        return f"Build on the positive momentum by exploring deeper interests and creative solutions.{item_context}"
+        return f"Build on the positive momentum by exploring deeper interests and creative solutions.{item_context}", "fallback"
     else:
         # If we have specific items, provide more targeted advice
         if item_context:
-            return f"Probe their underlying interests with open-ended questions to find common ground.{item_context}"
+            return f"Probe their underlying interests with open-ended questions to find common ground.{item_context}", "fallback"
         else:
-            return f"Probe their underlying interests with open-ended questions to find common ground."
+            return "Probe their underlying interests with open-ended questions to find common ground.", "fallback"
 
 @dataclass
 class StructuredAdvice:
@@ -2064,14 +2102,30 @@ def _safe_best_offer(
     w_me: List[float] | None,
     w_opp: List[float] | None,
     last_split: Dict[str, int] | None,
+    parties: List[Party] | None = None,
+    coalitions: List[Coalition] | None = None,
 ):
     """Wrapper around *best_offer* that swallows problems and missing inputs.
+
+    If *parties* has >2 entries, routes to the N-party Pareto solver.
+    Otherwise falls back to the existing 2-party path.
 
     Returns ``None`` iff:
     • preference weights are unavailable,
     • *best_offer* raises (e.g. numerical issue), or
     • the returned split is identical to *last_split* (already optimal).
     """
+    # N-party path
+    if parties and len(parties) > 2:
+        try:
+            result = n_party_best_offer(counts, parties, coalitions, fairness="nash")
+            if result:
+                return result  # tuple of N allocation dicts
+        except Exception as exc:
+            logger.warning("n_party_best_offer failed – falling back (%s)", exc)
+        return None
+
+    # 2-party path (original)
     if w_me is None or w_opp is None:
         return None
     try:
@@ -2079,7 +2133,7 @@ def _safe_best_offer(
         equal_split = {k: v // 2 for k, v in counts.items()}
         base_you = utility(equal_split, w_me) if w_me else 0.0
         base_them = utility({k: counts[k] - v for k, v in equal_split.items()}, w_opp) if w_opp else 0.0
-        
+
         suggestion = best_offer(counts, w_me, w_opp, last_split or {}, base_you, base_them, 1.0)
         if suggestion and suggestion != (last_split or {}):
             return suggestion
@@ -2265,12 +2319,12 @@ def get_advice(
             logger.info(f"Using Pareto suggestion: {hint}")
         else:
             # Combine rule-based advice with numerical suggestions
-            base_advice = rule_based_advice_enhanced(scores, priorities, current_offers)
+            base_advice, strategy_name = rule_based_advice_enhanced(scores, priorities, current_offers)
             if numerical_advice and numerical_advice != "Consider making a small concession to move the negotiation forward.":
                 hint = f"{base_advice} Specifically: {numerical_advice}"
             else:
                 hint = _concise(base_advice)
-            logger.info(f"Using enhanced rule-based advice: {hint}")
+            logger.info(f"Using enhanced rule-based advice (strategy={strategy_name}): {hint}")
 
         # Surface recognized items to the LLM via the hint so it uses real names
         if id_to_name:
@@ -2349,7 +2403,8 @@ async def get_advice_async(
     model: str = "qwen3:latest",
     provider: str = "ollama",
     item_names: Dict[str, str] | None = None,
-    item_counts: Dict[str, int] | None = None
+    item_counts: Dict[str, int] | None = None,
+    parties: List[Dict[str, Any]] | None = None,
 ) -> Dict[str, Any]:
     """
     Async version of get_advice() with parallel operations for improved performance.
@@ -2369,6 +2424,8 @@ async def get_advice_async(
         provider: LLM provider (e.g., "ollama", "gemini")
         item_names: Optional mapping of item IDs to display names
         item_counts: Optional mapping of item IDs to total quantities
+        parties: Optional list of party dicts for N-party negotiation
+                 Each dict: {"id": str, "name": str, "weights": [float, ...]}
 
     Returns:
         Dictionary with keys: advice, reply, rag_source, rag_context
@@ -2383,6 +2440,7 @@ async def get_advice_async(
         extract_current_offers_async,
         retrieve_rag_context_async,
         llm_generate_reply_async,
+        estimate_n_party_preferences_async,
     )
 
     try:
@@ -2442,27 +2500,54 @@ async def get_advice_async(
         current_split: Dict[str, int] | None = turns[-1].get("my_allocation")
         counts: Dict[str, int] = item_counts if item_counts else {"item0": 3, "item1": 2, "item2": 1}
 
+        # Resolve N-party objects if provided
+        n_party_objs: List[Party] | None = None
+        n_party_coalitions: List[Coalition] | None = None
+        if parties and len(parties) > 2:
+            n_party_objs = [Party(id=p["id"], name=p["name"], weights=p["weights"]) for p in parties]
+            # Coalitions are resolved later if provided via the API
+
         # 4) PARALLEL EXECUTION - This is the key optimization!
-        # Execute 4 independent operations concurrently using asyncio.gather()
-        logger.info("[ASYNC] Starting parallel execution of 4 operations")
+        # Execute independent operations concurrently using asyncio.gather()
+        logger.info("[ASYNC] Starting parallel execution of operations")
         start_time = asyncio.get_event_loop().time()
 
-        (
-            (w_me, w_opp),      # Preference estimation (DistilBERT)
-            priorities,          # Item priorities (LLM or cached)
-            current_offers,      # Current offers (LLM or cached)
-            # RAG will be computed after hint generation
-        ) = await asyncio.gather(
-            estimate_preferences_async([t["text"] for t in turns]),
-            analyze_item_priorities_async(turns, model, item_names),
-            extract_current_offers_async(turns, model, item_names),
-        )
+        if n_party_objs and len(n_party_objs) > 2:
+            # N-party path: use N-party preference estimation
+            (
+                n_party_weights,
+                priorities,
+                current_offers,
+            ) = await asyncio.gather(
+                estimate_n_party_preferences_async([t["text"] for t in turns], len(n_party_objs)),
+                analyze_item_priorities_async(turns, model, item_names),
+                extract_current_offers_async(turns, model, item_names),
+            )
+            # Update party weights from estimator
+            for i, p in enumerate(n_party_objs):
+                if i < len(n_party_weights) and n_party_weights[i] is not None:
+                    p.weights = n_party_weights[i]
+            w_me, w_opp = n_party_weights[0] if n_party_weights else None, n_party_weights[1] if len(n_party_weights) > 1 else None
+        else:
+            (
+                (w_me, w_opp),      # Preference estimation (DistilBERT)
+                priorities,          # Item priorities (LLM or cached)
+                current_offers,      # Current offers (LLM or cached)
+                # RAG will be computed after hint generation
+            ) = await asyncio.gather(
+                estimate_preferences_async([t["text"] for t in turns]),
+                analyze_item_priorities_async(turns, model, item_names),
+                extract_current_offers_async(turns, model, item_names),
+            )
 
         parallel_elapsed = asyncio.get_event_loop().time() - start_time
         logger.info(f"[ASYNC] Parallel operations completed in {parallel_elapsed:.2f}s")
 
         # 5) Sequential operations that depend on parallel results
-        suggested_split = _safe_best_offer(counts, w_me, w_opp, current_split)
+        suggested_split = _safe_best_offer(
+            counts, w_me, w_opp, current_split,
+            parties=n_party_objs, coalitions=n_party_coalitions,
+        )
 
         # Build item ID to name mapping (same as sync version)
         id_to_name: Dict[str, str] = {}
@@ -2495,12 +2580,25 @@ async def get_advice_async(
         scores = score_turns(my_moves, opp_moves)
 
         if suggested_split is not None:
-            bundle_txt = ", ".join(
-                f"{v} {id_to_name.get(k, k)}" for k, v in suggested_split.items() if v
-            )
-            hint = f"Suggest splitting items like this: {bundle_txt}. This benefits both sides."
+            # N-party returns tuple of dicts; 2-party returns a single dict
+            if isinstance(suggested_split, tuple):
+                # N-party: build per-party descriptions
+                party_labels = [p["name"] for p in parties] if parties else [f"Party {i}" for i in range(len(suggested_split))]
+                parts = []
+                for idx, alloc in enumerate(suggested_split):
+                    label = party_labels[idx] if idx < len(party_labels) else f"Party {idx}"
+                    items_txt = ", ".join(f"{v} {id_to_name.get(k, k)}" for k, v in alloc.items() if v)
+                    if items_txt:
+                        parts.append(f"{label} gets {items_txt}")
+                bundle_txt = "; ".join(parts)
+            else:
+                bundle_txt = ", ".join(
+                    f"{v} {id_to_name.get(k, k)}" for k, v in suggested_split.items() if v
+                )
+            hint = f"Suggest splitting items like this: {bundle_txt}. This benefits all sides."
         else:
-            base_advice = rule_based_advice_enhanced(scores, priorities, current_offers)
+            base_advice, strategy_name = rule_based_advice_enhanced(scores, priorities, current_offers)
+            _strategy_learner.record_advice_given(conv_id, strategy_name)
             if numerical_advice and numerical_advice != "Consider making a small concession to move the negotiation forward.":
                 hint = f"{base_advice} Specifically: {numerical_advice}"
             else:

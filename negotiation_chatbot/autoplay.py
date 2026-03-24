@@ -1,8 +1,14 @@
 """Auto-proposal functionality for negotiation bot."""
 
 from typing import Dict, Sequence, Optional
-from pareto import best_offer, utility
-from preference import estimate_preferences
+
+try:
+    from negotiation_chatbot.pareto import best_offer, utility
+    from negotiation_chatbot.preference import estimate_preferences
+except ImportError:
+    # Fallback for script mode
+    from pareto import best_offer, utility
+    from preference import estimate_preferences
 
 EPS = 1e-9  # avoid edge cases in ≥ checks
 
